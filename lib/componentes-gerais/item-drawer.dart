@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual_completa/models/gerenciador-paginas.dart';
+import 'package:provider/provider.dart';
 
 class ItemDrawer extends StatelessWidget {
   const ItemDrawer({required this.iconData, required this.titulo, required this.pagina});
@@ -8,8 +10,12 @@ class ItemDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int paginaAtual = context.watch<GerenciadorPaginas>().paginaAtual;
+
     return InkWell(
-      onTap: (){},
+      onTap: (){
+        context.read<GerenciadorPaginas>().setPage(pagina);
+      },
       child: SizedBox(
         height: 60,
         child: Row(
@@ -19,20 +25,28 @@ class ItemDrawer extends StatelessWidget {
               child: Icon(
                 iconData,
                 size: 32,
-                color: Colors.grey,
+                color: _retornarCorItemSelecionado(paginaAtual),
               ),
             ),
             SizedBox(width: 32,),
             Text(
               titulo,
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 16,
-                color: Colors.grey
+                color: _retornarCorItemSelecionado(paginaAtual)
               ),
             )
           ],
         ),
       ),
     );
+  }
+
+  Color _retornarCorItemSelecionado(int paginaAtual){
+    if(paginaAtual == pagina){
+      return Colors.red;
+    }else{
+      return Colors.grey;
+    }
   }
 }
