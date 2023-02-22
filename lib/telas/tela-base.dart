@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/componentes-gerais/drawer-customizado.dart';
 import 'package:loja_virtual_completa/models/gerenciador-paginas.dart';
+import 'package:loja_virtual_completa/telas/login/tela-login.dart';
 import 'package:provider/provider.dart';
 
 class TelaBase extends StatelessWidget {
@@ -16,27 +17,32 @@ class TelaBase extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
           children: [
+            TelaLogin(),
             Scaffold(
               drawer: DrawerCustomizado(),
               appBar: AppBar(
                 title: Text("Home"),
+                backgroundColor:  const Color.fromARGB(255, 4, 125, 141),
               ),
             ),
             Scaffold(
               drawer: DrawerCustomizado(),
               appBar: AppBar(
+                backgroundColor:  const Color.fromARGB(255, 4, 125, 141),
                 title: Text("Home2"),
               ),
             ),
             Scaffold(
               drawer: DrawerCustomizado(),
               appBar: AppBar(
+                backgroundColor:  const Color.fromARGB(255, 4, 125, 141),
                 title: Text("Home3"),
               ),
             ),
             Scaffold(
               drawer: DrawerCustomizado(),
               appBar: AppBar(
+                backgroundColor:  const Color.fromARGB(255, 4, 125, 141),
                 title: Text("Home4"),
               ),
             ),

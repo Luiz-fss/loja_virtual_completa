@@ -19,8 +19,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Lojinha',
       debugShowCheckedModeBanner: false,
+      color:  Color.fromARGB(255, 4, 125, 141),
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+       primaryColor:  Color.fromARGB(255, 4, 125, 141),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        scaffoldBackgroundColor:const Color.fromARGB(255, 4, 125, 141),
+        appBarTheme: const AppBarTheme(elevation: 0)
       ),
       home: TelaBase(),
     );
