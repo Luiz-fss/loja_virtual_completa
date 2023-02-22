@@ -25,7 +25,7 @@ class ItemDrawer extends StatelessWidget {
               child: Icon(
                 iconData,
                 size: 32,
-                color: _retornarCorItemSelecionado(paginaAtual),
+                color: _retornarCorItemSelecionado(paginaAtual,context),
               ),
             ),
             SizedBox(width: 32,),
@@ -33,7 +33,7 @@ class ItemDrawer extends StatelessWidget {
               titulo,
               style:  TextStyle(
                 fontSize: 16,
-                color: _retornarCorItemSelecionado(paginaAtual)
+                color: _retornarCorItemSelecionado(paginaAtual,context)
               ),
             )
           ],
@@ -42,9 +42,9 @@ class ItemDrawer extends StatelessWidget {
     );
   }
 
-  Color _retornarCorItemSelecionado(int paginaAtual){
+  Color _retornarCorItemSelecionado(int paginaAtual,BuildContext context){
     if(paginaAtual == pagina){
-      return Colors.red;
+      return Theme.of(context).primaryColor;
     }else{
       return Colors.grey;
     }
