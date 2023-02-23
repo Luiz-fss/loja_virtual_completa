@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
+    return ChangeNotifierProvider(
       create: (_)=> GerenciadorUsuario(),
       child: MaterialApp(
         title: 'Lojinha',
