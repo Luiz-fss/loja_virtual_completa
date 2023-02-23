@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
 import 'package:loja_virtual_completa/models/usuario-model.dart';
+import 'package:loja_virtual_completa/telas/login/cadastro-conta.dart';
 import 'package:loja_virtual_completa/telas/tela-base.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +32,17 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor:const Color.fromARGB(255, 4, 125, 141),
           appBarTheme: const AppBarTheme(elevation: 0)
         ),
-        home: TelaBase(),
+       initialRoute: "/tela-base",
+       onGenerateRoute: (settings){
+          switch(settings.name){
+            case "/tela-base":
+              return MaterialPageRoute(builder: (_)=>TelaBase());
+            case "/cadastro-conta":
+              return MaterialPageRoute(builder: (_)=> CadastroConta());
+            default:
+              return MaterialPageRoute(builder: (_)=>TelaBase());
+          }
+       },
       ),
     );
   }
