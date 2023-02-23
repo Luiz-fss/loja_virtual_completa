@@ -1,17 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:loja_virtual_completa/firebase_options.dart';
+import 'package:loja_virtual_completa/helpers/erros-firebase.dart';
 import 'package:loja_virtual_completa/models/usuario-model.dart';
-
-import '../helpers/erros-firebase.dart';
 
 class GerenciadorUsuario extends ChangeNotifier{
 
   GerenciadorUsuario(){
+
     _carregarUsuarioAtual();
   }
 
-  FirebaseAuth auth = FirebaseAuth.instance;
+  late FirebaseAuth auth;
 
   User? usuarioAtual;
   bool loading = false;
@@ -23,8 +26,8 @@ class GerenciadorUsuario extends ChangeNotifier{
          email: usuario.email!, password: usuario.senha!);
      usuarioAtual = result.user;
      onSucess();
-   }on PlatformException catch(e){
-     onFail(pegarTextoErro(e.code));
+   } catch(e){
+     onFail(pegarTextoErro(e.toString()));
    }
    setLoading(false);
   }
@@ -35,6 +38,10 @@ class GerenciadorUsuario extends ChangeNotifier{
   }
 
   Future<void> _carregarUsuarioAtual()async{
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    auth = FirebaseAuth.instance;
     User? usuario = await auth.currentUser;
     if(usuario !=null){
       usuarioAtual = usuario;

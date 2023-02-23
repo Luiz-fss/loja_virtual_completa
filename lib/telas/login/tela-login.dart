@@ -21,6 +21,19 @@ class TelaLogin extends StatelessWidget {
         title: const Text("Entrar"),
         centerTitle: true,
         backgroundColor:  const Color.fromARGB(255, 4, 125, 141),
+        actions: [
+          TextButton(
+              onPressed: (){
+                Navigator.pushReplacementNamed(context, "/cadastro-conta");
+              },
+              child: const Text(
+                  "Criar conta",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14
+                  ),
+              ))
+        ],
       ),
       body: Center(
         child: Card(
