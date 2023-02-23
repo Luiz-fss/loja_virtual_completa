@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/helpers/validators.dart';
+import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
+import 'package:loja_virtual_completa/models/usuario-model.dart';
+import 'package:provider/provider.dart';
 
 class TelaLogin extends StatelessWidget {
    TelaLogin({Key? key}) : super(key: key);
@@ -75,7 +78,10 @@ class TelaLogin extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: (){
                        if( formKey.currentState!.validate()){
-
+                         Usuario usuario =  Usuario();
+                         usuario.email = emailController.text;
+                         usuario.senha = senhaController.text;
+                         context.read<GerenciadorUsuario>().signIn(usuario);
                        }
                       },
                     style: ButtonStyle(
