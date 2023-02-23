@@ -10,10 +10,12 @@ class TelaLogin extends StatelessWidget {
    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
    TextEditingController emailController = TextEditingController();
    TextEditingController senhaController = TextEditingController();
+   final GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      key: scaffoldState,
       backgroundColor:  const Color.fromARGB(255, 4, 125, 141),
       appBar: AppBar(
         title: const Text("Entrar"),
@@ -81,7 +83,15 @@ class TelaLogin extends StatelessWidget {
                          Usuario usuario =  Usuario();
                          usuario.email = emailController.text;
                          usuario.senha = senhaController.text;
-                         context.read<GerenciadorUsuario>().signIn(usuario);
+                         context.read<GerenciadorUsuario>().signIn(
+                             usuario: usuario,
+                             onFail: (e){
+                               ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+                                 content: Text("Falha ao entrar: ${e}"),
+                                 backgroundColor: Colors.red,
+                               ));
+                             },
+                             onSucess: (){});
                        }
                       },
                     style: ButtonStyle(
