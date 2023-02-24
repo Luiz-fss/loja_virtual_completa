@@ -16,7 +16,7 @@ class GerenciadorUsuario extends ChangeNotifier{
 
   late FirebaseAuth auth;
 
-  User? usuarioAtual;
+  late User usuarioAtual;
   bool loading = false;
   
   Future<void> signIn({required Usuario usuario, required Function onFail, required Function onSucess})async{
@@ -24,7 +24,7 @@ class GerenciadorUsuario extends ChangeNotifier{
    try{
      final UserCredential result = await auth.signInWithEmailAndPassword(
          email: usuario.email!, password: usuario.senha!);
-     usuarioAtual = result.user;
+     usuarioAtual = result.user!;
      onSucess();
    } catch(e){
      onFail(pegarTextoErro(e.toString()));
@@ -53,7 +53,10 @@ class GerenciadorUsuario extends ChangeNotifier{
     setLoading(true);
     try{
       final UserCredential userCredential = await auth.createUserWithEmailAndPassword(email: usuario.email!, password: usuario.senha!);
-      usuarioAtual = userCredential.user;
+      //usuarioAtual = userCredential.user;
+      usuario.id = userCredential.user!.uid;
+
+      await usuario.salvarDados();
       onSucess();
     }catch (e){
       onFail(pegarTextoErro(e.toString()));
