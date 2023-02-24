@@ -49,4 +49,16 @@ class GerenciadorUsuario extends ChangeNotifier{
     notifyListeners();
   }
 
+  Future<void> signUp({required Usuario usuario, required Function onFail, required Function onSucess})async {
+    setLoading(true);
+    try{
+      final UserCredential userCredential = await auth.createUserWithEmailAndPassword(email: usuario.email!, password: usuario.senha!);
+      usuarioAtual = userCredential.user;
+      onSucess();
+    }catch (e){
+      onFail(pegarTextoErro(e.toString()));
+    }
+    setLoading(false);
+  }
+
 }
