@@ -108,7 +108,9 @@ class TelaLogin extends StatelessWidget {
                                     backgroundColor: Colors.red,
                                   ));
                                 },
-                                onSucess: (){});
+                                onSucess: (){
+                                  Navigator.of(context).pop();
+                                });
                           }
                         },
                         style: ButtonStyle(

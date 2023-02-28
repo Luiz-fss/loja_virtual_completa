@@ -17,7 +17,6 @@ class TelaBase extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
           children: [
-            TelaLogin(),
             Scaffold(
               drawer: DrawerCustomizado(),
               appBar: AppBar(

@@ -116,7 +116,9 @@ class CadastroConta extends StatelessWidget {
                                       backgroundColor: Colors.red,
                                     ));
                                   },
-                                  onSucess: (){}
+                                  onSucess: (){
+                                    Navigator.of(context).pop();
+                                  }
                               );
                             }
                           }
