@@ -40,6 +40,7 @@ class CadastroConta extends StatelessWidget {
                       decoration: const InputDecoration(
                           hintText: "Nome Completo"
                       ),
+                      enabled: !gerenciadorUsuario.loading,
                       validator: (nome){
                         if(nome == null || nome!.isEmpty){
                           return "Campo Obrigatorio";
@@ -54,6 +55,7 @@ class CadastroConta extends StatelessWidget {
                       decoration: const InputDecoration(
                           hintText: "E-mail"
                       ),
+                      enabled: !gerenciadorUsuario.loading,
                       validator: (email){
                         if(email == null || email!.isEmpty){
                           return "Campo Obrigatorio";
@@ -70,6 +72,7 @@ class CadastroConta extends StatelessWidget {
                           hintText: "Senha"
                       ),
                       obscureText: true,
+                      enabled: !gerenciadorUsuario.loading,
                       validator: (senha){
                         if (senha == null || senha!.isEmpty){
                           return "Campo Obrigatório";
@@ -84,6 +87,7 @@ class CadastroConta extends StatelessWidget {
                       decoration: const InputDecoration(
                           hintText: "Repita a senha"
                       ),
+                      enabled: !gerenciadorUsuario.loading,
                       obscureText: true,
                       validator: (senha){
                         if(senha!.isEmpty || senha.length < 6){
@@ -98,7 +102,7 @@ class CadastroConta extends StatelessWidget {
                     SizedBox(
                       height: 44,
                       child: ElevatedButton(
-                        onPressed: (){
+                        onPressed: gerenciadorUsuario.loading ? null : (){
                           if(formKey.currentState!.validate()){
                             formKey.currentState!.save();
                             if(novoUsuario.senha != novoUsuario.confirmacaoSenha){
@@ -127,7 +131,9 @@ class CadastroConta extends StatelessWidget {
                           backgroundColor: MaterialStateProperty.all<Color>(
                             const Color.fromARGB(255, 4, 125, 141),),
                         ),
-                        child: const Text(
+                        child: gerenciadorUsuario.loading ? const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(Colors.white),
+                        ) :const Text(
                           "Criar Conta",
                           style: TextStyle(
                               fontSize: 18
