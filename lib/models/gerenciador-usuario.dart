@@ -15,8 +15,9 @@ class GerenciadorUsuario extends ChangeNotifier{
 
   late FirebaseAuth auth;
 
-  late Usuario usuarioAtual;
+  Usuario? usuarioAtual;
   bool loading = false;
+  bool get usuarioLogado => usuarioAtual != null;
   
   Future<void> signIn({required Usuario usuario, required Function onFail, required Function onSucess})async{
     setLoading(true);
@@ -49,7 +50,6 @@ class GerenciadorUsuario extends ChangeNotifier{
       final DocumentSnapshot documentoUsuario = await
       firebaseFirestore.collection("users").doc(usuario.uid).get();
       usuarioAtual = Usuario.fromDocumento(documentoUsuario);
-      print(usuarioAtual.nomeCompleto);
       notifyListeners();
     }
   }
@@ -68,6 +68,13 @@ class GerenciadorUsuario extends ChangeNotifier{
       onFail(pegarTextoErro(e.toString()));
     }
     setLoading(false);
+  }
+
+  Future<void> signOut ()async{
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    auth.signOut();
+    usuarioAtual = null;
+    notifyListeners();
   }
 
 }
