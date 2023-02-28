@@ -10,13 +10,12 @@ import 'package:loja_virtual_completa/models/usuario-model.dart';
 class GerenciadorUsuario extends ChangeNotifier{
 
   GerenciadorUsuario(){
-
     _carregarUsuarioAtual();
   }
 
   late FirebaseAuth auth;
 
-  late User usuarioAtual;
+  late Usuario usuarioAtual;
   bool loading = false;
   
   Future<void> signIn({required Usuario usuario, required Function onFail, required Function onSucess})async{
@@ -24,7 +23,8 @@ class GerenciadorUsuario extends ChangeNotifier{
    try{
      final UserCredential result = await auth.signInWithEmailAndPassword(
          email: usuario.email!, password: usuario.senha!);
-     usuarioAtual = result.user!;
+     await _carregarUsuarioAtual(firebaseUser: result.user);
+
      onSucess();
    } catch(e){
      onFail(pegarTextoErro(e.toString()));
@@ -37,16 +37,21 @@ class GerenciadorUsuario extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> _carregarUsuarioAtual()async{
+  Future<void> _carregarUsuarioAtual({User? firebaseUser})async{
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
     auth = FirebaseAuth.instance;
-    User? usuario = await auth.currentUser;
+
+    FirebaseFirestore firebaseFirestore =  FirebaseFirestore.instance;
+    User? usuario = firebaseUser ?? await auth.currentUser;
     if(usuario !=null){
-      usuarioAtual = usuario;
+      final DocumentSnapshot documentoUsuario = await
+      firebaseFirestore.collection("users").doc(usuario.uid).get();
+      usuarioAtual = Usuario.fromDocumento(documentoUsuario);
+      print(usuarioAtual.nomeCompleto);
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   Future<void> signUp({required Usuario usuario, required Function onFail, required Function onSucess})async {
@@ -55,6 +60,7 @@ class GerenciadorUsuario extends ChangeNotifier{
       final UserCredential userCredential = await auth.createUserWithEmailAndPassword(email: usuario.email!, password: usuario.senha!);
       //usuarioAtual = userCredential.user;
       usuario.id = userCredential.user!.uid;
+      usuarioAtual = usuario;
 
       await usuario.salvarDados();
       onSucess();

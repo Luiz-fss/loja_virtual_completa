@@ -9,6 +9,12 @@ class Usuario {
 
   Usuario({this.email, this.senha});
 
+  Usuario.fromDocumento(DocumentSnapshot documentSnapshot){
+    nomeCompleto = documentSnapshot["name"] as String;
+    email = documentSnapshot["email"] as String;
+    id = documentSnapshot.id;
+  }
+
   DocumentReference get documentRef =>
   FirebaseFirestore.instance.doc("users/$id");
 
