@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           create: (_)=> GerenciadorUsuario(),
           lazy: false,
         ),
-        Provider(
+        ChangeNotifierProvider(
           create: (_)=> GerenciadorProduto(),
           lazy: false,
         )
