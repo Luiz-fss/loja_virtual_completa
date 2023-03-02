@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/componentes-gerais/drawer-customizado.dart';
 import 'package:loja_virtual_completa/models/gerenciador-paginas.dart';
 import 'package:loja_virtual_completa/telas/login/tela-login.dart';
+import 'package:loja_virtual_completa/telas/produtos/listagem-produtos.dart';
 import 'package:provider/provider.dart';
 
 class TelaBase extends StatelessWidget {
@@ -24,13 +25,7 @@ class TelaBase extends StatelessWidget {
                 backgroundColor:  const Color.fromARGB(255, 4, 125, 141),
               ),
             ),
-            Scaffold(
-              drawer: DrawerCustomizado(),
-              appBar: AppBar(
-                backgroundColor:  const Color.fromARGB(255, 4, 125, 141),
-                title: Text("Home2"),
-              ),
-            ),
+            ListagemProdutos(),
             Scaffold(
               drawer: DrawerCustomizado(),
               appBar: AppBar(
