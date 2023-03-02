@@ -1,10 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class GerenciadorProduto {
+import 'produto.dart';
+
+class GerenciadorProduto extends ChangeNotifier{
 
   GerenciadorProduto(){
     _carregarTodosProdutos();
   }
+  List<Produto> _todosProdutos = [];
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
@@ -12,8 +17,7 @@ class GerenciadorProduto {
     QuerySnapshot snapshotProducts = await
     firebaseFirestore.collection("products").get();
 
-    for (DocumentSnapshot doc in snapshotProducts.docs){
-      print(doc.id);
-    }
+    _todosProdutos = snapshotProducts.docs.map((e) => Produto.fromDocument(e)).toList();
+    notifyListeners();
   }
 }
