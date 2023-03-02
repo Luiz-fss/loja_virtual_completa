@@ -46,7 +46,7 @@ class ListTileProduto extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "R\$ 19,99",
+                    "R\$ 19,99,",
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
