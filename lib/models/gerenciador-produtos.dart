@@ -9,7 +9,7 @@ class GerenciadorProduto extends ChangeNotifier{
   GerenciadorProduto(){
     _carregarTodosProdutos();
   }
-  List<Produto> _todosProdutos = [];
+  List<Produto> todosProdutos = [];
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
@@ -17,7 +17,7 @@ class GerenciadorProduto extends ChangeNotifier{
     QuerySnapshot snapshotProducts = await
     firebaseFirestore.collection("products").get();
 
-    _todosProdutos = snapshotProducts.docs.map((e) => Produto.fromDocument(e)).toList();
+    todosProdutos = snapshotProducts.docs.map((e) => Produto.fromDocument(e)).toList();
     notifyListeners();
   }
 }
