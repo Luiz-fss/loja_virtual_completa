@@ -18,8 +18,12 @@ class ListagemProdutos extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: (){
+            onPressed: ()async{
+              final pesquisaUsuario = await
               showDialog(context: context, builder: (context)=> SearchDialog());
+              if(pesquisaUsuario != null){
+                context.read<GerenciadorProduto>().search = pesquisaUsuario as String;
+              }
             },
             icon: const Icon(Icons.search),
           )
@@ -27,11 +31,12 @@ class ListagemProdutos extends StatelessWidget {
       ),
       body: Consumer<GerenciadorProduto>(
         builder: (_,gerenciadorProduto,child){
+          final prodFiltado = gerenciadorProduto.filtrarListaProduto;
           return ListView.builder(
             padding: const EdgeInsets.all(4),
-            itemCount: gerenciadorProduto.todosProdutos.length,
+            itemCount: prodFiltado.length,
             itemBuilder: (context,index){
-              return ListTileProduto(produto: gerenciadorProduto.todosProdutos[index]);
+              return ListTileProduto(produto: prodFiltado[index]);
             },
           );
         },
