@@ -13,21 +13,21 @@ class GerenciadorProduto extends ChangeNotifier{
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  String _pesquisa = "";
+  String pesquisa = "";
 
-  set search(String pesquisa){
-    _pesquisa = pesquisa;
+  set search(String pesquisaUsuario){
+    pesquisa = pesquisaUsuario;
     notifyListeners();
   }
 
   List<Produto> get filtrarListaProduto{
     List<Produto> produtosFiltrados = [];
-    if( _pesquisa.isEmpty){
+    if( pesquisa.isEmpty){
       produtosFiltrados.addAll(todosProdutos);
     }else{
       produtosFiltrados.addAll(
           todosProdutos.where((element) =>
-              element.name!.toLowerCase().contains(_pesquisa.toLowerCase())));
+              element.name!.toLowerCase().contains(pesquisa.toLowerCase())));
     }
     return produtosFiltrados;
   }

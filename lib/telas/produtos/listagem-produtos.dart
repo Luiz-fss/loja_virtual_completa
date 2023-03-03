@@ -14,18 +14,57 @@ class ListagemProdutos extends StatelessWidget {
       drawer: DrawerCustomizado(),
       appBar: AppBar(
         backgroundColor:  const Color.fromARGB(255, 4, 125, 141),
-        title: const Text("Produtos"),
+        title: Consumer<GerenciadorProduto>(
+          builder: (_,gerenciadorProd,child){
+            if(gerenciadorProd.pesquisa.isEmpty){
+              return const Text("Produtos");
+            }else{
+              return LayoutBuilder(
+                builder: (context,constraints){
+                  return GestureDetector(
+                    child: Container(
+                        width: constraints.biggest.width,
+                        child: Text(gerenciadorProd.pesquisa)
+                    ),
+                    onTap: ()async{
+                      final pesquisaUsuario = await
+                      showDialog(context: context, builder: (context)=> SearchDialog(gerenciadorProd.pesquisa));
+                      if(pesquisaUsuario != null){
+                        gerenciadorProd.search = pesquisaUsuario as String;
+                      }
+                    },
+                  );
+                },
+              );
+            }
+          },
+        ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: ()async{
-              final pesquisaUsuario = await
-              showDialog(context: context, builder: (context)=> SearchDialog());
-              if(pesquisaUsuario != null){
-                context.read<GerenciadorProduto>().search = pesquisaUsuario as String;
+          Consumer<GerenciadorProduto>(
+            builder: (context,gerenciadorProduto,child){
+              if(gerenciadorProduto.pesquisa.isEmpty){
+                return
+                  IconButton(
+                    onPressed: ()async{
+                      final pesquisaUsuario = await
+                      showDialog(context: context, builder: (context)=> SearchDialog(gerenciadorProduto.pesquisa));
+                      if(pesquisaUsuario != null){
+                        gerenciadorProduto.search = pesquisaUsuario as String;
+                      }
+                    },
+                    icon: const Icon(Icons.search),
+                  );
+              }else{
+                return
+                  IconButton(
+                    onPressed: ()async{
+                     gerenciadorProduto.pesquisa = "";
+                    },
+                    icon: const Icon(Icons.close),
+                  );
               }
             },
-            icon: const Icon(Icons.search),
           )
         ],
       ),
