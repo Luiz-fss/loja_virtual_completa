@@ -4,9 +4,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/gerenciador-produtos.dart';
 import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
+import 'package:loja_virtual_completa/models/produto.dart';
 import 'package:loja_virtual_completa/models/usuario-model.dart';
 import 'package:loja_virtual_completa/telas/login/cadastro-conta.dart';
 import 'package:loja_virtual_completa/telas/login/tela-login.dart';
+import 'package:loja_virtual_completa/telas/produtos/detalhe-produto.dart';
 import 'package:loja_virtual_completa/telas/tela-base.dart';
 import 'package:provider/provider.dart';
 
@@ -54,8 +56,12 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_)=>TelaBase());
             case "/cadastro-conta":
               return MaterialPageRoute(builder: (_)=> CadastroConta());
-            case "tela-login":
+            case "/tela-login":
               return MaterialPageRoute(builder: (_)=> TelaLogin());
+            case "/detalhe-produto":
+              return MaterialPageRoute(builder: (_)=> DetalheProduto(
+                settings.arguments as Produto
+              ));
             default:
               return MaterialPageRoute(builder: (_)=>TelaBase());
           }
