@@ -37,7 +37,7 @@ class CustomDrawerHeader extends StatelessWidget {
                   if(gerenciadorUsuario.usuarioLogado){
                     gerenciadorUsuario.signOut();
                   }else{
-                    Navigator.pushNamed(context, "tela-login");
+                    Navigator.pushNamed(context, "/tela-login");
                   }
                 },
                 child: Text(

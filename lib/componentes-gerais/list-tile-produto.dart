@@ -8,55 +8,60 @@ class ListTileProduto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4)
-      ),
-      child: Container(
-        height: 100,
-        padding: const EdgeInsets.all(8),
-        child: Row(
-          children: [
-            AspectRatio(
-              aspectRatio: 1,
-              child: Image.network(produto.images!.first),
-            ),
-            SizedBox(width: 16,),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    produto.name!,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 4),
-                    child: Text(
-                      "A partir de:",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold
+    return GestureDetector(
+      onTap: (){
+        Navigator.of(context).pushNamed("/detalhe-produto",arguments: produto);
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4)
+        ),
+        child: Container(
+          height: 100,
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            children: [
+              AspectRatio(
+                aspectRatio: 1,
+                child: Image.network(produto.images!.first),
+              ),
+              SizedBox(width: 16,),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      produto.name!,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16
                       ),
                     ),
-                  ),
-                  Text(
-                    "R\$ 19,99,",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor
+                    const Padding(
+                      padding: EdgeInsets.only(top: 4),
+                      child: Text(
+                        "A partir de:",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
                     ),
-                  )
-                ],
-              ),
-            )
-          ],
+                    Text(
+                      "R\$ 19,99,",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
