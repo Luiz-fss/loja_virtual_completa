@@ -15,4 +15,5 @@ class TamanhoItem {
   String toString() {
     return 'TamanhoItem{nome: $nome, preco: $preco, stock: $stock}';
   }
+
 }
