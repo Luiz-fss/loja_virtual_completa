@@ -1,6 +1,7 @@
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/produto.dart';
+import 'package:loja_virtual_completa/telas/produtos/item-tamanho.dart';
 
 class DetalheProduto extends StatelessWidget {
 
@@ -75,6 +76,23 @@ class DetalheProduto extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 16
                   ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 16,bottom: 8),
+                  child: Text(
+                    "Tamanhos",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500
+                    ),
+                  ),
+                ),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: produto.tamanhos!.map((w){
+                    return ItemTamanho(w);
+                  }).toList(),
                 )
               ],
             ),
