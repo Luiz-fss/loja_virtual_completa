@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual_completa/models/gerenciador-cart.dart';
 import 'package:loja_virtual_completa/models/gerenciador-produtos.dart';
 import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
 import 'package:loja_virtual_completa/models/produto.dart';
@@ -32,6 +33,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_)=> GerenciadorUsuario(),
+          lazy: false,
+        ),
+        Provider(
+          create: (_)=> GerenciadorCarrinho(),
           lazy: false,
         ),
         ChangeNotifierProvider(

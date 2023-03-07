@@ -1,5 +1,6 @@
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual_completa/models/gerenciador-cart.dart';
 import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
 import 'package:loja_virtual_completa/models/produto.dart';
 import 'package:loja_virtual_completa/telas/produtos/item-tamanho.dart';
@@ -128,6 +129,7 @@ class DetalheProduto extends StatelessWidget {
             child: ElevatedButton(
               onPressed: produto.itemSelecionado ? (){
                 if(gerenciadorUsuario.usuarioLogado){
+                  context.read<GerenciadorCarrinho>().adicionarAoCarrinho(produto);
                 }else{
                   Navigator.of(context).pushNamed("/tela-login");
                 }
