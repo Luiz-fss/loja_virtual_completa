@@ -38,4 +38,15 @@ class Produto extends ChangeNotifier{
     notifyListeners();
   }
 
+  int get totalStock{
+    int stock = 0;
+    for(final tamanho in tamanhos){
+      stock = stock+ tamanho.stock!;
+    }
+    return stock;
+  }
+
+  bool get temStock {
+    return totalStock >0;}
+
 }

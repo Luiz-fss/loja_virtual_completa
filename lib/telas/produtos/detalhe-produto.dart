@@ -1,5 +1,6 @@
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
 import 'package:loja_virtual_completa/models/produto.dart';
 import 'package:loja_virtual_completa/telas/produtos/item-tamanho.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +37,7 @@ class DetalheProduto extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     produto.name!,
@@ -96,7 +97,11 @@ class DetalheProduto extends StatelessWidget {
                     children: produto.tamanhos!.map((w){
                       return ItemTamanho(w);
                     }).toList(),
-                  )
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  _retornarBotao(context)
                 ],
               ),
             ),
@@ -112,5 +117,39 @@ class DetalheProduto extends StatelessWidget {
      listaImgs.add(Image.network(produto.images![i]));
     }
     return listaImgs;
+  }
+
+  Widget _retornarBotao(BuildContext context){
+    if(produto.temStock){
+      return Consumer2<GerenciadorUsuario,Produto>(
+        builder: (_,gerenciadorUsuario,produto,child){
+          return SizedBox(
+            height: 44,
+            child: ElevatedButton(
+              onPressed: produto.itemSelecionado ? (){
+                if(gerenciadorUsuario.usuarioLogado){
+                }else{
+                  Navigator.of(context).pushNamed("/tela-login");
+                }
+              }: null,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).primaryColor
+                ),
+              ),
+              child: Text(
+                gerenciadorUsuario.usuarioLogado ?
+                "Adicionar ao carrinho" : "Entre para comprar",
+                style: const TextStyle(
+                    fontSize: 18
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    }else{
+      return Container();
+    }
   }
 }
