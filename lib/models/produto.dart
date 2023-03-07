@@ -49,4 +49,16 @@ class Produto extends ChangeNotifier{
   bool get temStock {
     return totalStock >0;}
 
+  TamanhoItem? encontrarTamanho(String nome){
+    try {
+      for(int i =0; i < tamanhos.length;i++){
+        if(tamanhos[i].nome == nome){
+          return tamanhos[i];
+        }
+      }
+    }catch(e){
+      return null;
+    }
+  }
+
 }
