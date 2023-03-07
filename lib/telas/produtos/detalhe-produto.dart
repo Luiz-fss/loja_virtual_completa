@@ -130,6 +130,7 @@ class DetalheProduto extends StatelessWidget {
               onPressed: produto.itemSelecionado ? (){
                 if(gerenciadorUsuario.usuarioLogado){
                   context.read<GerenciadorCarrinho>().adicionarAoCarrinho(produto);
+                  Navigator.pushNamed(context, "/tela-carrinho");
                 }else{
                   Navigator.of(context).pushNamed("/tela-login");
                 }
