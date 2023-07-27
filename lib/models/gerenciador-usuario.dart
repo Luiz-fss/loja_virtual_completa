@@ -16,6 +16,8 @@ class GerenciadorUsuario extends ChangeNotifier{
 
   late FirebaseAuth auth;
 
+
+
   Usuario? usuarioAtual;
   bool loading = false;
   bool get usuarioLogado => usuarioAtual != null;
