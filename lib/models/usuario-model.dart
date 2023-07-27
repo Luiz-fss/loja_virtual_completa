@@ -7,6 +7,9 @@ class Usuario {
   String? confirmacaoSenha;
   String? id;
 
+  DocumentReference get firestoreRef => FirebaseFirestore.instance.doc("users/$id");
+  CollectionReference get referenciaCarrinho => firestoreRef.collection("cart");
+
   Usuario({this.email, this.senha});
 
   Usuario.fromDocumento(DocumentSnapshot documentSnapshot){
