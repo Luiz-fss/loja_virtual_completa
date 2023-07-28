@@ -34,7 +34,6 @@ class Produto extends ChangeNotifier{
   TamanhoItem get selecionarTamanho  => _tamanhoSelecionado!;
   set selecionarTamanho(TamanhoItem valor){
     _tamanhoSelecionado = valor;
-    print("notificou");
     notifyListeners();
   }
 
@@ -60,5 +59,6 @@ class Produto extends ChangeNotifier{
       return null;
     }
   }
+
 
 }
