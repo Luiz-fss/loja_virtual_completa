@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual_completa/componentes-gerais/icon-button-customizado.dart';
 
 import '../../models/produto-cart.dart';
 
 class CartTile extends StatelessWidget {
-
   ProdutoCart produtoCart;
   CartTile(this.produtoCart);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           children: [
             SizedBox(
@@ -24,13 +24,12 @@ class CartTile extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.only(left: 16),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       produtoCart.produto?.name! ?? "",
                       style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18
-                      ),
+                          fontWeight: FontWeight.w500, fontSize: 18),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -43,13 +42,27 @@ class CartTile extends StatelessWidget {
                     ),
                     Text(
                       "R\$ ${produtoCart.buscarPrecoUnitario?.toStringAsFixed(2)}",
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor
-                      ),
+                      style: TextStyle(color: Theme.of(context).primaryColor),
                     )
                   ],
                 ),
               ),
+            ),
+            Column(
+              children: [
+                IconButtonCustomizado(
+                    iconData: Icons.add,
+                    corIcone: Theme.of(context).primaryColor,
+                    onTap: produtoCart.incrementar),
+                Text(
+                  "${produtoCart.quantidade}",
+                  style: const TextStyle(fontSize: 20),
+                ),
+                IconButtonCustomizado(
+                    iconData: Icons.remove,
+                    corIcone: Theme.of(context).primaryColor,
+                    onTap: produtoCart.decrementar),
+              ],
             )
           ],
         ),

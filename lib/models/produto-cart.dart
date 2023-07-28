@@ -57,4 +57,12 @@ class ProdutoCart {
   bool stackable(Produto produto){
     return produto.id == productId && produto.tamanhos.first.nome == tamanho;
   }
+
+  void incrementar(){
+    quantidade = quantidade! +1;
+  }
+
+  void decrementar(){
+    quantidade = quantidade! -1;
+  }
 }
