@@ -11,7 +11,14 @@ class GerenciadorCarrinho {
   Usuario? usuario = Usuario();
 
   void adicionarAoCarrinho(Produto produto){
-    itens.add(ProdutoCart.fromProduct(produto));
+    try{
+      final e = itens.firstWhere((element) => element.stackable(produto));
+      e.quantidade = e.quantidade! + 1;
+    }catch(e){
+      final produtoCarrinho = ProdutoCart.fromProduct(produto);
+      itens.add(produtoCarrinho);
+      usuario?.referenciaCarrinho.add(produtoCarrinho.toCartItemMap());
+    }
   }
 
   void updateUser(GerenciadorUsuario? gerenciadorUsuario){
@@ -26,7 +33,7 @@ class GerenciadorCarrinho {
   Future<void> _carregarItensDoCarrinho()async{
     final QuerySnapshot? cartSnapshot = await usuario?.referenciaCarrinho.get();
     if(cartSnapshot != null){
-      itens = cartSnapshot.docs.map((e) => ProdutoCart.fromDocument(e)).toList() as List<ProdutoCart>;
+      itens = cartSnapshot.docs.map((e) => ProdutoCart.fromDocument(e)).toList();
     }
   }
 

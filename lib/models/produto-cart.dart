@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:loja_virtual_completa/models/produto.dart';
 import 'package:loja_virtual_completa/models/tamanho-item.dart';
@@ -17,9 +19,17 @@ class ProdutoCart {
     quantidade = documentSnapshot["quantity"] as int;
     tamanho = documentSnapshot["size"] as String;
 
-    firestore.collection("products/$productId").get().then((value) => (){
-      return produto = Produto.fromDocument(documentSnapshot);
+    firestore.doc("products/$productId").get().then((value){
+      return produto = Produto.fromDocument(value);
     });
+  }
+
+  Map<String,dynamic> toCartItemMap(){
+    return {
+      "pid": productId,
+      "quantity": quantidade,
+      "size": tamanho
+    };
   }
 
   String? productId;
@@ -42,5 +52,9 @@ class ProdutoCart {
     }else{
       return tamanhoDoItem?.preco ?? 0;
     }
+  }
+
+  bool stackable(Produto produto){
+    return produto.id == productId && produto.tamanhos.first.nome == tamanho;
   }
 }

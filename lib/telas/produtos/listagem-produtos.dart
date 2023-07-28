@@ -80,6 +80,14 @@ class ListagemProdutos extends StatelessWidget {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        foregroundColor: Theme.of(context).primaryColor,
+        onPressed: (){
+          Navigator.of(context).pushNamed("/tela-carrinho");
+        },
+        child: Icon(Icons.shopping_cart),
+      ),
     );
   }
 }
