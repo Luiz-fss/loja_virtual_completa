@@ -16,10 +16,13 @@ class GerenciadorCarrinho {
       e.quantidade = e.quantidade! + 1;
     }catch(e){
       final produtoCarrinho = ProdutoCart.fromProduct(produto);
+      produtoCarrinho.addListener(_atualizarItem);
       itens.add(produtoCarrinho);
       usuario?.referenciaCarrinho.add(produtoCarrinho.toCartItemMap());
     }
   }
+
+  void _atualizarItem(){}
 
   void updateUser(GerenciadorUsuario? gerenciadorUsuario){
     usuario = gerenciadorUsuario?.usuarioAtual;
@@ -33,7 +36,7 @@ class GerenciadorCarrinho {
   Future<void> _carregarItensDoCarrinho()async{
     final QuerySnapshot? cartSnapshot = await usuario?.referenciaCarrinho.get();
     if(cartSnapshot != null){
-      itens = cartSnapshot.docs.map((e) => ProdutoCart.fromDocument(e)).toList();
+      itens = cartSnapshot.docs.map((e) => ProdutoCart.fromDocument(e)..addListener(_atualizarItem)).toList();
     }
   }
 

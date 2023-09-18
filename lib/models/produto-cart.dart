@@ -1,10 +1,11 @@
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:loja_virtual_completa/models/produto.dart';
 import 'package:loja_virtual_completa/models/tamanho-item.dart';
 
-class ProdutoCart {
+class ProdutoCart extends ChangeNotifier {
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -60,9 +61,11 @@ class ProdutoCart {
 
   void incrementar(){
     quantidade = quantidade! +1;
+    notifyListeners();
   }
 
   void decrementar(){
     quantidade = quantidade! -1;
+    notifyListeners();
   }
 }
