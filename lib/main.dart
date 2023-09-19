@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           create: (_)=> GerenciadorUsuario(),
           lazy: false,
         ),
-        ProxyProvider<GerenciadorUsuario,GerenciadorCarrinho>(
+        ChangeNotifierProxyProvider<GerenciadorUsuario,GerenciadorCarrinho>(
           create: (_)=> GerenciadorCarrinho(),
           lazy: false,
           update: (contex,gerenciadorUsuario,gerenciadorCarrinho){
