@@ -37,6 +37,7 @@ class GerenciadorCarrinho extends ChangeNotifier{
     usuario?.referenciaCarrinho.doc(cartProduct.id).delete();
     cartProduct.removeListener(_atualizarItem);
     notifyListeners();
+
   }
 
   void _atualizarProdutoCarrinho(ProdutoCart cartProduct){
