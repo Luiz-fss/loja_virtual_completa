@@ -16,12 +16,14 @@ class ProdutoCart extends ChangeNotifier {
   }
 
   ProdutoCart.fromDocument(DocumentSnapshot documentSnapshot){
+    id = documentSnapshot.id;
     productId = documentSnapshot["pid"] as String;
     quantidade = documentSnapshot["quantity"] as int;
     tamanho = documentSnapshot["size"] as String;
 
     firestore.doc("products/$productId").get().then((value){
-      return produto = Produto.fromDocument(value);
+      produto = Produto.fromDocument(value);
+      notifyListeners();
     });
   }
 
@@ -36,8 +38,18 @@ class ProdutoCart extends ChangeNotifier {
   String? productId;
   int? quantidade;
   String? tamanho;
+  String? id;
 
   Produto? produto;
+
+  bool get verificarEstoque{
+    final tamanho = tamanhoDoItem;
+    if(tamanho == null){
+      return false;
+    }else{
+      return tamanho.stock! >= quantidade!;
+    }
+  }
 
   TamanhoItem? get tamanhoDoItem{
     if(produto == null){
@@ -63,6 +75,8 @@ class ProdutoCart extends ChangeNotifier {
     quantidade = quantidade! +1;
     notifyListeners();
   }
+
+  num get totalPrice => buscarPrecoUnitario! * quantidade!;
 
   void decrementar(){
     quantidade = quantidade! -1;
