@@ -43,9 +43,21 @@ class CartTile extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text(
-                        "R\$ ${produtoCart.buscarPrecoUnitario?.toStringAsFixed(2)}",
-                        style: TextStyle(color: Theme.of(context).primaryColor),
+                      Consumer<ProdutoCart>(
+                        builder: (_, produtoCart, __) {
+                          if (produtoCart.verificarEstoque) {
+                            return Text(
+                              "R\$ ${produtoCart.buscarPrecoUnitario?.toStringAsFixed(2)}",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
+                            );
+                          } else {
+                            return Text(
+                              "Sem estoque suficiente.",
+                              style: TextStyle(color: Colors.red, fontSize: 12),
+                            );
+                          }
+                        },
                       )
                     ],
                   ),
