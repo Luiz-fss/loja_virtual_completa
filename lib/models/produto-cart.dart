@@ -20,6 +20,7 @@ class ProdutoCart extends ChangeNotifier {
     productId = documentSnapshot["pid"] as String;
     quantidade = documentSnapshot["quantity"] as int;
     tamanho = documentSnapshot["size"] as String;
+    id = documentSnapshot.id;
 
     firestore.doc("products/$productId").get().then((value){
       produto = Produto.fromDocument(value);
