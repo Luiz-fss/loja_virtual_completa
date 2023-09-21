@@ -13,7 +13,7 @@ class GerenciadorHome extends ChangeNotifier{
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   Future<void> _carregarSessoes() async{
     firebaseFirestore.collection("home").snapshots().listen((snapshot) {
-      sessoes.clear();
+      sessoes = [];
       for(final DocumentSnapshot documentSnapshot in snapshot.docs){
         sessoes.add(Sessao.fromDocument(documentSnapshot));
       }

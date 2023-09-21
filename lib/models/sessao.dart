@@ -8,8 +8,8 @@ class Sessao {
   List<ItemSessao>? items;
 
   Sessao.fromDocument(DocumentSnapshot document){
-    name = document["name"] as String;
-    type = document["type"] as String;
+    name = document["name"] as String?;
+    type = document["type"] as String?;
     items = (document["items"] as List).map((item) => ItemSessao.fromMap(item)).toList();
   }
 }

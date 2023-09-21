@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual_completa/models/gerenciador-paginas.dart';
 import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
 import 'package:provider/provider.dart';
 
@@ -35,6 +36,7 @@ class CustomDrawerHeader extends StatelessWidget {
               GestureDetector(
                 onTap: (){
                   if(gerenciadorUsuario.usuarioLogado){
+                    context.read<GerenciadorPaginas>().setPage(0);
                     gerenciadorUsuario.signOut();
                   }else{
                     Navigator.pushNamed(context, "/tela-login");
