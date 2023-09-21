@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/sessao.dart';
 import 'package:loja_virtual_completa/telas/home/components/header-sessao.dart';
+import 'package:loja_virtual_completa/telas/home/components/item-tile.dart';
 
 class SessaoLista extends StatelessWidget {
 
@@ -22,12 +23,8 @@ class SessaoLista extends StatelessWidget {
               itemCount: sessao.items!.length,
               separatorBuilder: (_,__)=> const SizedBox(width: 4,),
               itemBuilder: (context,index){
-                return AspectRatio(
-                  child: Image.network(
-                      sessao.items![index].image!,
-                      fit: BoxFit.cover,
-                  ),
-                  aspectRatio: 1,
+                return ItemTile(
+                  itemSessao: sessao.items![index],
                 );
               },
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/componentes-gerais/custom-drawer-header.dart';
+import 'package:loja_virtual_completa/componentes-gerais/drawer-customizado.dart';
 import 'package:loja_virtual_completa/models/gerenciador-home.dart';
 import 'package:loja_virtual_completa/telas/home/components/sessao-list.dart';
 import 'package:loja_virtual_completa/telas/home/components/sessao-staggered.dart';
@@ -11,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawerHeader(),
+      drawer: DrawerCustomizado(),
       body: Stack(
         children: [
           Container(
