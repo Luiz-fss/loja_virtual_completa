@@ -53,6 +53,14 @@ class GerenciadorUsuario extends ChangeNotifier{
       final DocumentSnapshot documentoUsuario = await
       firebaseFirestore.collection("users").doc(usuario.uid).get();
       usuarioAtual = Usuario.fromDocumento(documentoUsuario);
+
+      if(usuarioAtual !=null){
+        final docAdmin = await firebaseFirestore.collection("admins").doc(usuarioAtual!.id).get();
+        if(docAdmin.exists){
+          usuarioAtual!.admin = true;
+        }
+      }
+
       notifyListeners();
     }
   }
@@ -79,5 +87,7 @@ class GerenciadorUsuario extends ChangeNotifier{
     usuarioAtual = null;
     notifyListeners();
   }
+
+  bool get adminEnabled => usuarioAtual != null && usuarioAtual!.admin!;
 
 }

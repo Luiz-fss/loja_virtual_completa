@@ -6,6 +6,7 @@ class Usuario {
   String? nomeCompleto;
   String? confirmacaoSenha;
   String? id;
+  bool? admin = false;
 
   DocumentReference get firestoreRef => FirebaseFirestore.instance.doc("users/$id");
   CollectionReference get referenciaCarrinho => firestoreRef.collection("cart");
