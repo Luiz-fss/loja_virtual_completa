@@ -39,4 +39,12 @@ class GerenciadorProduto extends ChangeNotifier{
     todosProdutos = snapshotProducts.docs.map((e) => Produto.fromDocument(e)).toList();
     notifyListeners();
   }
+
+  Produto? encontrarProdutoPorId (String id){
+    try{
+      return todosProdutos.firstWhere((p) => p.id == id);
+    }catch(e){
+      return null;
+    }
+  }
 }

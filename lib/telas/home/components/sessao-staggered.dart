@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:loja_virtual_completa/models/sessao.dart';
 import 'package:loja_virtual_completa/telas/home/components/header-sessao.dart';
+import 'package:loja_virtual_completa/telas/home/components/item-tile.dart';
 
 class SessaoStaggered extends StatelessWidget {
   final Sessao sessao;
@@ -21,9 +22,8 @@ class SessaoStaggered extends StatelessWidget {
             padding: EdgeInsets.zero,
             itemCount: sessao.items!.length,
             itemBuilder: (context,index){
-              return Image.network(
-                sessao.items![index].image!,
-                fit: BoxFit.cover,
+              return ItemTile(
+                itemSessao:sessao.items![index]
               );
             },
             staggeredTileBuilder: (index)=> StaggeredTile.count(2,index.isEven ? 2 : 1),
