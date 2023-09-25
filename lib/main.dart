@@ -13,6 +13,7 @@ import 'package:loja_virtual_completa/telas/carrinho/tela-carrinho.dart';
 import 'package:loja_virtual_completa/telas/login/cadastro-conta.dart';
 import 'package:loja_virtual_completa/telas/login/tela-login.dart';
 import 'package:loja_virtual_completa/telas/produtos/detalhe-produto.dart';
+import 'package:loja_virtual_completa/telas/produtos/editar-produto.dart';
 import 'package:loja_virtual_completa/telas/tela-base.dart';
 import 'package:provider/provider.dart';
 
@@ -80,6 +81,10 @@ class MyApp extends StatelessWidget {
             case "/detalhe-produto":
               return MaterialPageRoute(builder: (_)=> DetalheProduto(
                 settings.arguments as Produto
+              ));
+            case "/editar-produti":
+              return MaterialPageRoute(builder: (_)=>EditarProduto(
+                settings.arguments as Produto,
               ));
             default:
               return MaterialPageRoute(builder: (_)=>TelaBase());
