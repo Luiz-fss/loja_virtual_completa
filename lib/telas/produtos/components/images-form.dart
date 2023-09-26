@@ -78,10 +78,9 @@ class ImagesForm extends StatelessWidget {
               )
             ),
             activeColor: Theme.of(context).primaryColor,
-            width: 250,
-            height: 250,
             animation: true,
-            borderRadius: 25,
+            width: double.infinity,
+            height: double.infinity,
           ),
         );
       },

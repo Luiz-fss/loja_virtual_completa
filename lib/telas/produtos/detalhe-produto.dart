@@ -41,7 +41,6 @@ class DetalheProduto extends StatelessWidget {
           ],
         ),
         body: ListView(
-          
           children: [
            BannerCarousel(
              customizedBanners:_retornarImagens(),

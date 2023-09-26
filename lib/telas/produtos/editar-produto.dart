@@ -16,6 +16,7 @@ class EditarProduto extends StatelessWidget {
           "Editar anúncio"
         ),
         centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: ListView(
         children: [

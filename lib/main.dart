@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_)=> DetalheProduto(
                 settings.arguments as Produto
               ));
-            case "/editar-produti":
+            case "/editar-produto":
               return MaterialPageRoute(builder: (_)=>EditarProduto(
                 settings.arguments as Produto,
               ));
