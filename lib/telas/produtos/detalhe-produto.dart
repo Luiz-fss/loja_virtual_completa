@@ -23,9 +23,24 @@ class DetalheProduto extends StatelessWidget {
           title: Text(
             produto.name!
           ),
+          actions: [
+            Consumer<GerenciadorUsuario>(
+              builder: (_,userManager,__){
+                if(userManager.adminEnabled){
+                  return IconButton(
+                    onPressed: (){
+                      Navigator.of(context).pushReplacementNamed("/editar-produto",arguments: produto);
+                    },
+                    icon: Icon(Icons.edit),
+                  );
+                }else{
+                  return Container();
+                }
+              },
+            )
+          ],
         ),
         body: ListView(
-          
           children: [
            BannerCarousel(
              customizedBanners:_retornarImagens(),
