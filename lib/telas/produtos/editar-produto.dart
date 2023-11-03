@@ -8,6 +8,8 @@ class EditarProduto extends StatelessWidget {
   final Produto produto;
   EditarProduto(this.produto);
 
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,12 +18,34 @@ class EditarProduto extends StatelessWidget {
           "Editar anúncio"
         ),
         centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.white,
       ),
-      body: ListView(
-        children: [
-          ImagesForm(produto),
-        ],
+      body: Form(
+        child: ListView(
+          children: [
+            ImagesForm(produto),
+            ElevatedButton(
+              onPressed: (){
+                if(formKey.currentState!.validate()){
+                  print("");
+                }else{
+                  print("");
+                }
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).primaryColor
+                ),
+              ),
+              child: const Text(
+                "Salvar",
+                style: TextStyle(
+                    fontSize: 18
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
