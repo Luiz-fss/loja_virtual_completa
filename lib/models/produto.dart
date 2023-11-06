@@ -45,6 +45,16 @@ class Produto extends ChangeNotifier{
     return stock;
   }
 
+  num get basePrice{
+    num lowest = double.infinity;
+    for(final size in tamanhos){
+      if(size.preco! < lowest && size.temStock){
+        lowest = size.preco!;
+      }
+    }
+    return lowest;
+  }
+
   bool get temStock {
     return totalStock >0;}
 
