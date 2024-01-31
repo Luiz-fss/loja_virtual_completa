@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/produto.dart';
 import 'package:loja_virtual_completa/telas/produtos/components/images-form.dart';
+import 'package:loja_virtual_completa/telas/produtos/components/sizes-form.dart';
 
 class EditarProduto extends StatelessWidget {
 
@@ -91,6 +92,7 @@ class EditarProduto extends StatelessWidget {
                         return null;
                     },
                   ),
+                  SizesForm(product: produto,),
                   ElevatedButton(
                     onPressed: (){
                       if(formKey.currentState!.validate()){
