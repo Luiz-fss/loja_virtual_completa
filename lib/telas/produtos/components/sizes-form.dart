@@ -12,6 +12,13 @@ class SizesForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return FormField<List<TamanhoItem>>(
       initialValue: List.from(product.tamanhos),
+      validator: (sizes) {
+        if (sizes == null || sizes.isEmpty) {
+          return "Insira o tamanho do prodtuto";
+        } else {
+          return null;
+        }
+      },
       builder: (state) {
         return Column(
           children: [
@@ -29,21 +36,43 @@ class SizesForm extends StatelessWidget {
                     onTap: () {
                       state.value?.add(TamanhoItem());
                       state.didChange(state.value);
-                    }
-                )
+                    })
               ],
             ),
             Column(
               children: state.value!.map((size) {
                 return EditItemSize(
                   size: size,
-                  onRemove: (){
+                  key: ObjectKey(size),
+                  onRemove: () {
                     state.value?.remove(size);
                     state.didChange(state.value);
                   },
+                  onMoveDown: size != state.value?.last
+                      ? () {
+                          final index = state.value?.indexOf(size);
+                          state.value?.remove(size);
+                          state.value?.insert(index! + 1, size);
+                        }
+                      : null,
+                  onMoveUp: size != state.value?.first
+                      ? () {
+                          final index = state.value?.indexOf(size);
+                          state.value?.remove(size);
+                          state.value?.insert(index! - 1, size);
+                        }
+                      : null,
                 );
               }).toList(),
             ),
+            if (state.hasError)
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  state.errorText!,
+                  style: const TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              )
           ],
         );
       },

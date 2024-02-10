@@ -23,7 +23,7 @@ class IconButtonCustomizado extends StatelessWidget {
             padding: const EdgeInsets.all(4),
             child: Icon(
               iconData,
-              color: corIcone,
+              color: onTap != null ? corIcone : Colors.grey,
             ),
           ),
         ),

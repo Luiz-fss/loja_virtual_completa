@@ -6,7 +6,9 @@ import 'package:loja_virtual_completa/telas/produtos/item-tamanho.dart';
 class EditItemSize extends StatelessWidget {
   final TamanhoItem size;
   final VoidCallback onRemove;
-  const EditItemSize({required this.size,required this.onRemove});
+  final VoidCallback? onMoveUp;
+  final VoidCallback? onMoveDown;
+   EditItemSize({required this.size, required this.onRemove, this.onMoveDown,this.onMoveUp,Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,33 +18,63 @@ class EditItemSize extends StatelessWidget {
           flex: 30,
           child: TextFormField(
             initialValue: size.nome,
-            decoration: const InputDecoration(
-              labelText: "Título",
-              isDense: true
-            ),
+            onChanged: (name){
+              size.nome = name;
+            },
+            validator: (name){
+              if(name == null || name.isEmpty){
+                return "Nome inválido";
+              }else{
+                return null;
+              }
+            },
+            decoration:
+                const InputDecoration(labelText: "Título", isDense: true),
           ),
         ),
-        const SizedBox(width: 4,),
+        const SizedBox(
+          width: 4,
+        ),
         Expanded(
           flex: 30,
           child: TextFormField(
             initialValue: size.stock?.toString(),
-            decoration: const InputDecoration(
-                labelText: "Estoque",
-                isDense: true
-            ),
+            onChanged: (stock){
+              size.stock = int.tryParse(stock);
+            },
+            validator: (stock){
+              if(stock == null || int.tryParse(stock) == null){
+                return "Inválido";
+              }else{
+                return null;
+              }
+            },
+            decoration:
+                const InputDecoration(labelText: "Estoque", isDense: true),
             keyboardType: TextInputType.number,
           ),
         ),
-        const SizedBox(width: 4,),
+        const SizedBox(
+          width: 4,
+        ),
         Expanded(
           flex: 40,
           child: TextFormField(
             initialValue: size.preco?.toStringAsFixed(2),
+            onChanged: (price){
+              size.preco = double.tryParse(price);
+            },
+            validator: (price){
+              if(price == null || double.tryParse(price) == null){
+                return "Inválido";
+              }else{
+                return null;
+              }
+            },
             decoration: const InputDecoration(
-                labelText: "Preço",
-                prefixText: "R\$",
-                isDense: true,
+              labelText: "Preço",
+              prefixText: "R\$",
+              isDense: true,
             ),
             keyboardType: TextInputType.numberWithOptions(decimal: true),
           ),
@@ -52,8 +84,14 @@ class EditItemSize extends StatelessWidget {
           corIcone: Colors.red,
           onTap: onRemove,
         ),
-        IconButtonCustomizado(iconData: Icons.arrow_drop_up, corIcone: Colors.black, onTap: (){}),
-        IconButtonCustomizado(iconData: Icons.arrow_drop_down, corIcone: Colors.black, onTap: (){})
+        IconButtonCustomizado(
+            iconData: Icons.arrow_drop_up,
+            corIcone: Colors.black,
+            onTap: onMoveUp ?? (){}),
+        IconButtonCustomizado(
+            iconData: Icons.arrow_drop_down,
+            corIcone: Colors.black,
+            onTap: onMoveDown ?? (){})
       ],
     );
   }
