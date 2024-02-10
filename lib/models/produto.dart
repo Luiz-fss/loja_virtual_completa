@@ -5,6 +5,11 @@ import 'package:loja_virtual_completa/telas/produtos/item-tamanho.dart';
 
 class Produto extends ChangeNotifier{
 
+  Produto({this.id,this.description,this.name,this.images,required this.tamanhos}){
+    images = images ?? [];
+    tamanhos = tamanhos ?? [];
+  }
+
   Produto.fromDocument(DocumentSnapshot documentSnapshot){
     name = documentSnapshot["name"] as String;
     description = documentSnapshot["description"] as String;
@@ -68,6 +73,16 @@ class Produto extends ChangeNotifier{
     }catch(e){
       return null;
     }
+  }
+
+  Produto clone (){
+    return Produto(
+      id: id,
+      name: name,
+      description: description,
+      images: List.from(images!),
+      tamanhos: tamanhos.map((e) => e.clone()).toList()
+    );
   }
 
 

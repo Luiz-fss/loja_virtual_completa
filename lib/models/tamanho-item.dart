@@ -4,7 +4,15 @@ class TamanhoItem {
   num? preco;
   int? stock;
 
-  TamanhoItem();
+  TamanhoItem({this.preco,this.stock,this.nome});
+
+  TamanhoItem clone (){
+    return TamanhoItem(
+      preco: preco,
+      nome: nome,
+      stock: stock
+    );
+  }
 
   TamanhoItem.fromMap(Map<String,dynamic> map){
     nome = map["name"] as String;

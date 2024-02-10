@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/componentes-gerais/drawer-customizado.dart';
 import 'package:loja_virtual_completa/componentes-gerais/list-tile-produto.dart';
 import 'package:loja_virtual_completa/models/gerenciador-produtos.dart';
+import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
 import 'package:loja_virtual_completa/telas/produtos/search-dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -55,6 +56,7 @@ class ListagemProdutos extends StatelessWidget {
                     },
                     icon: const Icon(Icons.search),
                   );
+
               }else{
                 return
                   IconButton(
@@ -65,7 +67,23 @@ class ListagemProdutos extends StatelessWidget {
                   );
               }
             },
+          ),
+          Consumer<GerenciadorUsuario>(
+            builder: (_, userManager, __) {
+              if (userManager.adminEnabled) {
+                return IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                        "/editar-produto",);
+                  },
+                  icon: Icon(Icons.add),
+                );
+              } else {
+                return Container();
+              }
+            },
           )
+
         ],
       ),
       body: Consumer<GerenciadorProduto>(
