@@ -25,6 +25,7 @@ class Produto extends ChangeNotifier{
   List<String>? images;
   String? id;
   bool itemSelecionado = false;
+  List<dynamic>? newImages;
 
 
   marcarItemSelecionado(bool valor){

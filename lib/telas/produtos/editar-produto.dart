@@ -18,7 +18,7 @@ class EditarProduto extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          editing ? "Editar anúncio" : "Criar Anuncio"
+          editing ? "Editar Produto" : "Criar Produto"
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -42,6 +42,7 @@ class EditarProduto extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.w600
                     ),
+                    onSaved: (name) => produto.name = name,
                     validator: (textoTitulo){
                       if(textoTitulo!.length < 6){
                         return "Título muito curto";
@@ -87,6 +88,7 @@ class EditarProduto extends StatelessWidget {
                       border: InputBorder.none
                     ),
                     maxLines: null,
+                    onSaved: (desc) => produto.description = desc,
                     validator: (textoDescricao){
                       if(textoDescricao!.length < 10){
                         return "Descrição muito curta";
@@ -101,7 +103,7 @@ class EditarProduto extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: (){
                         if(formKey.currentState!.validate()){
-                          print("");
+                          formKey.currentState!.save();
                         }else{
                           print("");
                         }
