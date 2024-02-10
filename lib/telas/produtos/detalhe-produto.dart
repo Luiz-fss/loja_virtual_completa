@@ -7,7 +7,6 @@ import 'package:loja_virtual_completa/telas/produtos/item-tamanho.dart';
 import 'package:provider/provider.dart';
 
 class DetalheProduto extends StatelessWidget {
-
   final Produto produto;
   DetalheProduto(this.produto);
 
@@ -16,24 +15,24 @@ class DetalheProduto extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: produto,
       child: Scaffold(
-        backgroundColor:  Colors.white,
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor:  const Color.fromARGB(255, 4, 125, 141),
+          backgroundColor: const Color.fromARGB(255, 4, 125, 141),
           centerTitle: true,
-          title: Text(
-            produto.name!
-          ),
+          title: Text(produto.name!),
           actions: [
             Consumer<GerenciadorUsuario>(
-              builder: (_,userManager,__){
-                if(userManager.adminEnabled){
+              builder: (_, userManager, __) {
+                if (userManager.adminEnabled) {
                   return IconButton(
-                    onPressed: (){
-                      Navigator.of(context).pushReplacementNamed("/editar-produto",arguments: produto);
+                    onPressed: () {
+                      Navigator.of(context).pushReplacementNamed(
+                          "/editar-produto",
+                          arguments: produto);
                     },
                     icon: Icon(Icons.edit),
                   );
-                }else{
+                } else {
                   return Container();
                 }
               },
@@ -42,14 +41,14 @@ class DetalheProduto extends StatelessWidget {
         ),
         body: ListView(
           children: [
-           BannerCarousel(
-             customizedBanners:_retornarImagens(),
-             activeColor: Colors.amber,
-             width: 250,
-             height: 250,
-             animation: true,
-             borderRadius: 25,
-           ),
+            BannerCarousel(
+              customizedBanners: _retornarImagens(),
+              activeColor: Colors.amber,
+              width: 250,
+              height: 250,
+              animation: true,
+              borderRadius: 25,
+            ),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -58,18 +57,13 @@ class DetalheProduto extends StatelessWidget {
                   Text(
                     produto.name!,
                     style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20
-                    ),
+                        fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 8),
                     child: Text(
                       "A partir de:",
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 13
-                      ),
+                      style: TextStyle(color: Colors.grey, fontSize: 13),
                     ),
                   ),
                   Text(
@@ -77,40 +71,32 @@ class DetalheProduto extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor
-                    ),
+                        color: Theme.of(context).primaryColor),
                   ),
-
                   const Padding(
-                    padding: EdgeInsets.only(top: 16,bottom: 8),
+                    padding: EdgeInsets.only(top: 16, bottom: 8),
                     child: Text(
                       "Descrição",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500
-                      ),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ),
                   Text(
                     produto.description!,
-                    style: const TextStyle(
-                      fontSize: 16
-                    ),
+                    style: const TextStyle(fontSize: 16),
                   ),
                   const Padding(
-                    padding: EdgeInsets.only(top: 16,bottom: 8),
+                    padding: EdgeInsets.only(top: 16, bottom: 8),
                     child: Text(
                       "Tamanhos",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500
-                      ),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ),
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: produto.tamanhos!.map((w){
+                    children: produto.tamanhos!.map((w) {
                       return ItemTamanho(w);
                     }).toList(),
                   ),
@@ -127,46 +113,48 @@ class DetalheProduto extends StatelessWidget {
     );
   }
 
-  List<Widget> _retornarImagens(){
+  List<Widget> _retornarImagens() {
     List<Widget> listaImgs = [];
-    for(int i =0;i < produto.images!.length;i++){
-     listaImgs.add(Image.network(produto.images![i]));
+    for (int i = 0; i < produto.images!.length; i++) {
+      listaImgs.add(Image.network(produto.images![i]));
     }
     return listaImgs;
   }
 
-  Widget _retornarBotao(BuildContext context){
-    if(produto.temStock){
-      return Consumer2<GerenciadorUsuario,Produto>(
-        builder: (_,gerenciadorUsuario,produto,child){
+  Widget _retornarBotao(BuildContext context) {
+    if (produto.temStock) {
+      return Consumer2<GerenciadorUsuario, Produto>(
+        builder: (_, gerenciadorUsuario, produto, child) {
           return SizedBox(
             height: 44,
             child: ElevatedButton(
-              onPressed: produto.itemSelecionado ? (){
-                if(gerenciadorUsuario.usuarioLogado){
-                  context.read<GerenciadorCarrinho>().adicionarAoCarrinho(produto);
-                  Navigator.pushNamed(context, "/tela-carrinho");
-                }else{
-                  Navigator.of(context).pushNamed("/tela-login");
-                }
-              }: null,
+              onPressed: produto.itemSelecionado
+                  ? () {
+                      if (gerenciadorUsuario.usuarioLogado) {
+                        context
+                            .read<GerenciadorCarrinho>()
+                            .adicionarAoCarrinho(produto);
+                        Navigator.pushNamed(context, "/tela-carrinho");
+                      } else {
+                        Navigator.of(context).pushNamed("/tela-login");
+                      }
+                    }
+                  : null,
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).primaryColor
-                ),
+                    Theme.of(context).primaryColor),
               ),
               child: Text(
-                gerenciadorUsuario.usuarioLogado ?
-                "Adicionar ao carrinho" : "Entre para comprar",
-                style: const TextStyle(
-                    fontSize: 18
-                ),
+                gerenciadorUsuario.usuarioLogado
+                    ? "Adicionar ao carrinho"
+                    : "Entre para comprar",
+                style: const TextStyle(fontSize: 18),
               ),
             ),
           );
         },
       );
-    }else{
+    } else {
       return Container();
     }
   }

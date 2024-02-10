@@ -7,16 +7,18 @@ class EditarProduto extends StatelessWidget {
 
 
   final Produto produto;
-  EditarProduto(this.produto);
+  EditarProduto(Produto? p):editing = p != null, produto = p != null ? p.clone() : Produto(tamanhos: []);
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  final bool editing;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Editar anúncio"
+        title: Text(
+          editing ? "Editar anúncio" : "Criar Anuncio"
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -93,23 +95,27 @@ class EditarProduto extends StatelessWidget {
                     },
                   ),
                   SizesForm(product: produto,),
-                  ElevatedButton(
-                    onPressed: (){
-                      if(formKey.currentState!.validate()){
-                        print("");
-                      }else{
-                        print("");
-                      }
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Theme.of(context).primaryColor
+                  const SizedBox(height: 20,),
+                  SizedBox(
+                    height: 44,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        if(formKey.currentState!.validate()){
+                          print("");
+                        }else{
+                          print("");
+                        }
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).primaryColor
+                        ),
                       ),
-                    ),
-                    child: const Text(
-                      "Salvar",
-                      style: TextStyle(
-                          fontSize: 18
+                      child: const Text(
+                        "Salvar",
+                        style: TextStyle(
+                            fontSize: 18
+                        ),
                       ),
                     ),
                   )
