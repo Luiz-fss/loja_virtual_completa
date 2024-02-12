@@ -86,5 +86,26 @@ class Produto extends ChangeNotifier{
     );
   }
 
+  List<Map<String,dynamic>> exportSizeList (){
+    return tamanhos.map((size) => size.toMap()).toList();
+  }
+
+  Future<void> save ()async{
+    final Map<String,dynamic> data = {
+      "name":name,
+      "description": description,
+      "sizes": exportSizeList()
+    };
+
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    if(id == null){
+      final doc = await firestore.collection("products").add(data);
+      id = doc.id;
+    }else{
+      DocumentReference getCurrentDoc = firestore.doc("products/$id");
+      await getCurrentDoc.update(data);
+    }
+  }
 
 }

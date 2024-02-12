@@ -14,6 +14,14 @@ class TamanhoItem {
     );
   }
 
+  Map<String,dynamic> toMap(){
+    return {
+      "nome":nome,
+      "preco": preco,
+      "stock":stock
+    };
+  }
+
   TamanhoItem.fromMap(Map<String,dynamic> map){
     nome = map["name"] as String;
     preco = map["price"] as num;
