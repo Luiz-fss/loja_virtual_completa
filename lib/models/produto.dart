@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:loja_virtual_completa/models/tamanho-item.dart';
 import 'package:loja_virtual_completa/telas/produtos/item-tamanho.dart';
+import 'package:uuid/uuid.dart';
 
 class Produto extends ChangeNotifier{
 
@@ -97,8 +100,9 @@ class Produto extends ChangeNotifier{
       "sizes": exportSizeList()
     };
 
-
     FirebaseFirestore firestore = FirebaseFirestore.instance;
+    FirebaseStorage storage = FirebaseStorage.instance;
+    Reference storageRef = storage.ref().child("products").child(id!);
     if(id == null){
       final doc = await firestore.collection("products").add(data);
       id = doc.id;
@@ -106,6 +110,30 @@ class Produto extends ChangeNotifier{
       DocumentReference getCurrentDoc = firestore.doc("products/$id");
       await getCurrentDoc.update(data);
     }
+
+    List<String> listUpdateImages = [];
+    for(final newImage in newImages ?? []){
+      if(images != null && images!.contains(newImage)){
+        listUpdateImages.add(newImage as String);
+      }else{
+        final task = await storageRef.child(Uuid().v1()).putFile(newImage as File);
+        final url = await task.ref.getDownloadURL();
+        listUpdateImages.add(url);
+      }
+    }
+
+    for(final image in images ?? []){
+      if(newImages != null && !newImages!.contains(image)){
+        try{
+          final ref = await storage.refFromURL(image);
+          await ref.delete();
+        }catch(e){
+          debugPrintStack();
+        }
+      }
+    }
+
+    await firestore.collection("products").doc(id!).update({"images":listUpdateImages});
   }
 
 }
