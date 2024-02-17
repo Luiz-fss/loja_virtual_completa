@@ -30,6 +30,13 @@ class Produto extends ChangeNotifier{
   bool itemSelecionado = false;
   List<dynamic>? newImages;
 
+  bool _loading = false;
+  bool get loading => _loading;
+  set loading (bool value){
+    _loading = value;
+    notifyListeners();
+  }
+
 
   marcarItemSelecionado(bool valor){
     itemSelecionado = valor;
@@ -94,6 +101,7 @@ class Produto extends ChangeNotifier{
   }
 
   Future<void> save ()async{
+    _loading = true;
     final Map<String,dynamic> data = {
       "name":name,
       "description": description,
@@ -134,6 +142,8 @@ class Produto extends ChangeNotifier{
     }
 
     await firestore.collection("products").doc(id!).update({"images":listUpdateImages});
+    images = listUpdateImages;
+    _loading = false;
   }
 
 }
