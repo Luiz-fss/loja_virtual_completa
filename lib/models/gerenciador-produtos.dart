@@ -47,4 +47,10 @@ class GerenciadorProduto extends ChangeNotifier{
       return null;
     }
   }
+
+  void update (Produto product){
+    todosProdutos.retainWhere((element) => element.id == product.id);
+    todosProdutos.add(product);
+    notifyListeners();
+  }
 }
