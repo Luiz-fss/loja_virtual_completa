@@ -10,6 +10,8 @@ class GerenciadorHome extends ChangeNotifier{
 
   List<Sessao> sessoes=[];
 
+  bool editing = false;
+
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   Future<void> _carregarSessoes() async{
     firebaseFirestore.collection("home").snapshots().listen((snapshot) {
@@ -19,5 +21,20 @@ class GerenciadorHome extends ChangeNotifier{
       }
       notifyListeners();
     });
+  }
+
+  void enterEditing(){
+    editing = true;
+    notifyListeners();
+  }
+
+  void saveEditing(){
+    editing = false;
+    notifyListeners();
+  }
+
+  void descardEditing(){
+    editing = false;
+    notifyListeners();
   }
 }

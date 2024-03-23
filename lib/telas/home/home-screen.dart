@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/componentes-gerais/custom-drawer-header.dart';
 import 'package:loja_virtual_completa/componentes-gerais/drawer-customizado.dart';
 import 'package:loja_virtual_completa/models/gerenciador-home.dart';
+import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
 import 'package:loja_virtual_completa/telas/home/components/sessao-list.dart';
 import 'package:loja_virtual_completa/telas/home/components/sessao-staggered.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +44,39 @@ class HomeScreen extends StatelessWidget {
                     icon: const Icon(Icons.shopping_cart),
                     color: Colors.white,
                     onPressed: ()=> Navigator.of(context).pushNamed("/tela-carrinho"),
-                  )
+                  ),
+                  Consumer2<GerenciadorUsuario,GerenciadorHome>(
+                    builder: (context,userManager,homeManager,__){
+                      if(userManager.usuarioLogado){
+                        if(homeManager.editing){
+                          return PopupMenuButton(
+                            onSelected: (e){
+                              if(e=="Salvar"){
+                                homeManager.saveEditing();
+                              }else{
+                                homeManager.descardEditing();
+                              }
+                            },
+                            itemBuilder: (_){
+                              return ["Salvar", "Descartar"].map((e){
+                                return PopupMenuItem(
+                                  child: Text(e),
+                                  value: e,
+                                );
+                              }).toList();
+                            },
+                          );
+                        }
+                        return IconButton(
+                          icon: const Icon(Icons.shopping_cart),
+                          color: Colors.white,
+                          onPressed: homeManager.enterEditing,
+                        );
+                      }else{
+                        return Container();
+                      }
+                    },
+                  ),
                 ],
               ),
               Consumer<GerenciadorHome>(
