@@ -81,7 +81,7 @@ class HomeScreen extends StatelessWidget {
               ),
               Consumer<GerenciadorHome>(
                 builder: (_,homeManager,__){
-                  final List<Widget> children = homeManager.sessoes.map((sessao){
+                  final List<Widget> children = homeManager.sections.map((sessao){
                     switch(sessao.type){
                       case "List":
                         return SessaoLista(sessao: sessao,);
