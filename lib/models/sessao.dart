@@ -7,9 +7,19 @@ class Sessao {
   String? type;
   List<ItemSessao>? items;
 
+  Sessao({this.name,this.items,this.type});
+
   Sessao.fromDocument(DocumentSnapshot document){
     name = document["name"] as String?;
     type = document["type"] as String?;
     items = (document["items"] as List).map((item) => ItemSessao.fromMap(item)).toList();
+  }
+
+  Sessao clone (){
+    return Sessao(
+      name: name,
+      type: type,
+      items: items?.map((e) => e.clone()).toList()
+    );
   }
 }

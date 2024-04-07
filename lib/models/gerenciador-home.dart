@@ -8,16 +8,25 @@ class GerenciadorHome extends ChangeNotifier{
     _carregarSessoes();
   }
 
-  List<Sessao> sessoes=[];
+  List<Sessao> _sessoes=[];
+  List<Sessao> _editingSections=[];
+
+  List<Sessao> get sections {
+    if(editing){
+      return _sessoes;
+    }
+    return _editingSections;
+  }
+
 
   bool editing = false;
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   Future<void> _carregarSessoes() async{
     firebaseFirestore.collection("home").snapshots().listen((snapshot) {
-      sessoes = [];
+      _sessoes = [];
       for(final DocumentSnapshot documentSnapshot in snapshot.docs){
-        sessoes.add(Sessao.fromDocument(documentSnapshot));
+        _sessoes.add(Sessao.fromDocument(documentSnapshot));
       }
       notifyListeners();
     });
@@ -25,6 +34,7 @@ class GerenciadorHome extends ChangeNotifier{
 
   void enterEditing(){
     editing = true;
+    _editingSections = _sessoes.map((s) => s.clone()).toList();
     notifyListeners();
   }
 
