@@ -3,6 +3,7 @@ import 'package:loja_virtual_completa/componentes-gerais/custom-drawer-header.da
 import 'package:loja_virtual_completa/componentes-gerais/drawer-customizado.dart';
 import 'package:loja_virtual_completa/models/gerenciador-home.dart';
 import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
+import 'package:loja_virtual_completa/telas/home/components/add-section-widget.dart';
 import 'package:loja_virtual_completa/telas/home/components/sessao-list.dart';
 import 'package:loja_virtual_completa/telas/home/components/sessao-staggered.dart';
 import 'package:provider/provider.dart';
@@ -91,6 +92,7 @@ class HomeScreen extends StatelessWidget {
                         return Container();
                     }
                   }).toList();
+                  children.add(_buildAddItems(homeManager));
                   return SliverList(
                     delegate: SliverChildListDelegate(
                         children
@@ -103,5 +105,12 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildAddItems(GerenciadorHome homeManager){
+    if(homeManager.editing){
+     return AddSectionWidget();
+    }
+    return Container();
   }
 }
