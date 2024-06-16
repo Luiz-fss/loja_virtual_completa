@@ -47,4 +47,9 @@ class GerenciadorHome extends ChangeNotifier{
     editing = false;
     notifyListeners();
   }
+
+  void addSection (Sessao sessao){
+    _editingSections.add(sessao);
+    notifyListeners();
+  }
 }

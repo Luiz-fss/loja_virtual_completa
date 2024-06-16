@@ -7,7 +7,7 @@ class Sessao {
   String? type;
   List<ItemSessao>? items;
 
-  Sessao({this.name,this.items,this.type});
+  Sessao({this.name,this.items,this.type}){items = items ?? [];}
 
   Sessao.fromDocument(DocumentSnapshot document){
     name = document["name"] as String?;
