@@ -52,4 +52,9 @@ class GerenciadorHome extends ChangeNotifier{
     _editingSections.add(sessao);
     notifyListeners();
   }
+
+  void removerSection(Sessao sessao){
+    _editingSections.remove(sessao);
+    notifyListeners();
+  }
 }
