@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:loja_virtual_completa/models/gerenciador-home.dart';
 import 'package:loja_virtual_completa/models/sessao.dart';
+import 'package:loja_virtual_completa/telas/home/components/add-tile-widget.dart';
 import 'package:loja_virtual_completa/telas/home/components/header-sessao.dart';
 import 'package:loja_virtual_completa/telas/home/components/item-tile.dart';
+import 'package:provider/provider.dart';
 
 class SessaoStaggered extends StatelessWidget {
   final Sessao sessao;
@@ -10,6 +13,7 @@ class SessaoStaggered extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final homeManager = context.watch<GerenciadorHome>();
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
       child: Column(
@@ -20,11 +24,15 @@ class SessaoStaggered extends StatelessWidget {
             shrinkWrap: true,
             crossAxisCount: 4,
             padding: EdgeInsets.zero,
-            itemCount: sessao.items!.length,
+            itemCount: homeManager.editing ? sessao.items!.length +1 : sessao.items!.length,
             itemBuilder: (context,index){
-              return ItemTile(
-                itemSessao:sessao.items![index]
-              );
+              if(index < sessao.items!.length){
+                return ItemTile(
+                    itemSessao:sessao.items![index]
+                );
+              }
+              return AddTileWidget();
+
             },
             staggeredTileBuilder: (index)=> StaggeredTile.count(2,index.isEven ? 2 : 1),
             mainAxisSpacing: 4,
