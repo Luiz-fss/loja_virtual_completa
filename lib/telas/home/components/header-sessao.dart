@@ -5,12 +5,13 @@ import 'package:loja_virtual_completa/models/sessao.dart';
 import 'package:provider/provider.dart';
 
 class HeaderSessao extends StatelessWidget {
-  final Sessao sessao;
-  const HeaderSessao({Key? key, required this.sessao}) : super(key: key);
+
+  const HeaderSessao({Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final homeManager = context.watch<GerenciadorHome>();
+    final sessao = context.watch<Sessao>();
     if(homeManager.editing){
       return Row(
         children: [

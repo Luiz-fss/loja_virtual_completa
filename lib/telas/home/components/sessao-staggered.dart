@@ -8,37 +8,44 @@ import 'package:loja_virtual_completa/telas/home/components/item-tile.dart';
 import 'package:provider/provider.dart';
 
 class SessaoStaggered extends StatelessWidget {
-  final Sessao sessao;
-  const SessaoStaggered({Key? key, required this.sessao}) : super(key: key);
+  const SessaoStaggered({Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final homeManager = context.watch<GerenciadorHome>();
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          HeaderSessao(sessao:sessao),
-          StaggeredGridView.countBuilder(
-            shrinkWrap: true,
-            crossAxisCount: 4,
-            padding: EdgeInsets.zero,
-            itemCount: homeManager.editing ? sessao.items!.length +1 : sessao.items!.length,
-            itemBuilder: (context,index){
-              if(index < sessao.items!.length){
-                return ItemTile(
-                    itemSessao:sessao.items![index]
-                );
-              }
-              return AddTileWidget();
+    final sessao = context.watch<Sessao>();
+    return ChangeNotifierProvider.value(
+      value: sessao,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            HeaderSessao(),
+            Consumer<Sessao>(
+              builder: (context,sessao,__){
+                return StaggeredGridView.countBuilder(
+                  shrinkWrap: true,
+                  crossAxisCount: 4,
+                  padding: EdgeInsets.zero,
+                  itemCount: homeManager.editing ? sessao.items!.length +1 : sessao.items!.length,
+                  itemBuilder: (context,index){
+                    if(index < sessao.items!.length){
+                      return ItemTile(
+                          itemSessao:sessao.items![index]
+                      );
+                    }
+                    return AddTileWidget();
 
-            },
-            staggeredTileBuilder: (index)=> StaggeredTile.count(2,index.isEven ? 2 : 1),
-            mainAxisSpacing: 4,
-            crossAxisSpacing: 4,
-          )
-        ],
+                  },
+                  staggeredTileBuilder: (index)=> StaggeredTile.count(2,index.isEven ? 2 : 1),
+                  mainAxisSpacing: 4,
+                  crossAxisSpacing: 4,
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }
