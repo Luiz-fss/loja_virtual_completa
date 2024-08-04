@@ -85,9 +85,9 @@ class HomeScreen extends StatelessWidget {
                   final List<Widget> children = homeManager.sections.map((sessao){
                     switch(sessao.type){
                       case "List":
-                        return SessaoLista(sessao: sessao,);
+                        return SessaoLista();
                       case "Staggered":
-                        return SessaoStaggered(sessao: sessao);
+                        return SessaoStaggered();
                       default:
                         return Container();
                     }

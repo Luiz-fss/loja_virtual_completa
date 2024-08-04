@@ -1,6 +1,6 @@
 class ItemSessao{
 
-  String? image;
+  dynamic image;
   String? product;
 
   ItemSessao({this.image,this.product});

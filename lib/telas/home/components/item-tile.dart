@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/gerenciador-produtos.dart';
 import 'package:loja_virtual_completa/models/item-sessao.dart';
@@ -14,11 +16,12 @@ class ItemTile extends StatelessWidget {
     return GestureDetector(
       child: AspectRatio(
         aspectRatio: 1,
-        child: FadeInImage.memoryNetwork(
+        child: itemSessao is String ?
+        FadeInImage.memoryNetwork(
           placeholder: kTransparentImage,
           image: itemSessao.image!,
           fit: BoxFit.cover,
-        )
+        ): Image.file(itemSessao.image as File,fit: BoxFit.cover,)
       ),
       onTap: (){
         if(itemSessao.product != null){
