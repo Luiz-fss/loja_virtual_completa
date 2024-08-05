@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:loja_virtual_completa/models/gerenciador-home.dart';
 import 'package:loja_virtual_completa/models/gerenciador-produtos.dart';
 import 'package:loja_virtual_completa/models/item-sessao.dart';
 import 'package:loja_virtual_completa/models/produto.dart';
+import 'package:loja_virtual_completa/models/sessao.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -13,6 +15,7 @@ class ItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final homeManager = context.watch<GerenciadorHome>();
     return GestureDetector(
       child: AspectRatio(
         aspectRatio: 1,
@@ -32,6 +35,28 @@ class ItemTile extends StatelessWidget {
           }
         }
       },
+      onLongPress: homeManager.editing ? (){
+        showDialog(
+          context: context,
+          builder: (context){
+            return AlertDialog(
+              title: const Text("Editar item"),
+              actions: [
+                FloatingActionButton(
+                  onPressed: (){
+                    context.read<Sessao>().removeItem(itemSessao);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "Excluir",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                )
+              ],
+            );
+          }
+        );
+      } : null,
     );
   }
 }

@@ -15,6 +15,11 @@ class Sessao extends ChangeNotifier{
     notifyListeners();
   }
 
+  void removeItem(ItemSessao item){
+    items?.remove(item);
+    notifyListeners();
+  }
+
   Sessao.fromDocument(DocumentSnapshot document){
     name = document["name"] as String?;
     type = document["type"] as String?;
