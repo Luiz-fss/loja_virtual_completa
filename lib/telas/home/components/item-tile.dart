@@ -39,8 +39,16 @@ class ItemTile extends StatelessWidget {
         showDialog(
           context: context,
           builder: (context){
+            final product = context.read<GerenciadorProduto>().encontrarProdutoPorId(itemSessao.product!);
             return AlertDialog(
               title: const Text("Editar item"),
+              content: product != null
+                  ? ListTile(
+                title: Text(product.name!),
+                contentPadding:  EdgeInsets.zero,
+                leading: Image.network(product.images!.first),
+                subtitle: Text("R\$ ${product.basePrice.toStringAsFixed(2)}"),
+              )  :null,
               actions: [
                 FloatingActionButton(
                   onPressed: (){
@@ -51,7 +59,22 @@ class ItemTile extends StatelessWidget {
                     "Excluir",
                     style: TextStyle(color: Colors.red),
                   ),
+                ),
+                FloatingActionButton(
+                  onPressed: ()async{
+                    if(product != null){
+                      itemSessao.product == null;
+                      Navigator.of(context).pop();
+                      return ;
+                    }
+                    final Produto? selectedProduct = await Navigator.pushNamed(context, "selecionar-produto") as Produto;
+                    itemSessao.product = selectedProduct?.id;
+                  },
+                  child: Text(
+                   product != null ? "Desvincular" : "Vincular",
+                  ),
                 )
+
               ],
             );
           }
