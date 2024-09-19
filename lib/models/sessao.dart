@@ -7,6 +7,13 @@ class Sessao extends ChangeNotifier{
   String? name;
   String? type;
   List<ItemSessao>? items;
+  String? _error = "";
+
+  String get error => _error ?? "";
+  set error(String? value){
+    _error = value;
+    notifyListeners();
+  }
 
   Sessao({this.name,this.items,this.type}){items = items ?? [];}
 
@@ -32,5 +39,16 @@ class Sessao extends ChangeNotifier{
       type: type,
       items: items?.map((e) => e.clone()).toList()
     );
+  }
+
+  bool valid(){
+    if(name == null || name!.isEmpty){
+      error = "Título inválido";
+    }else if(items == null || items!.isEmpty){
+      error = "Insira ao menos uma imagem";
+    }else{
+      error = null;
+    }
+    return error == null;
   }
 }
