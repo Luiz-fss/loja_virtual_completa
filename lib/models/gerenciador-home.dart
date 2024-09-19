@@ -39,11 +39,19 @@ class GerenciadorHome extends ChangeNotifier{
   }
 
   void saveEditing(){
+    bool valid = true;
+    for(final section in _editingSections){
+      if(!section.valid()) valid = false;
+    }
+    if(!valid){
+     return;
+    }
     editing = false;
     notifyListeners();
   }
 
   void descardEditing(){
+
     editing = false;
     notifyListeners();
   }

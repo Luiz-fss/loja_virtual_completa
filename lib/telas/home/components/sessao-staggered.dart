@@ -27,6 +27,7 @@ class SessaoStaggered extends StatelessWidget {
                 return StaggeredGridView.countBuilder(
                   shrinkWrap: true,
                   crossAxisCount: 4,
+                  physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,
                   itemCount: homeManager.editing ? sessao.items!.length +1 : sessao.items!.length,
                   itemBuilder: (context,index){
