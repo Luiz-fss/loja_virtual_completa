@@ -6,6 +6,7 @@ class Sessao extends ChangeNotifier{
 
   String? name;
   String? type;
+  String? id;
   List<ItemSessao>? items;
   String? _error = "";
 
@@ -15,7 +16,7 @@ class Sessao extends ChangeNotifier{
     notifyListeners();
   }
 
-  Sessao({this.name,this.items,this.type}){items = items ?? [];}
+  Sessao({this.name,this.items,this.type,this.id}){items = items ?? [];}
 
   void addItem(ItemSessao item){
     items?.add(item);
@@ -30,12 +31,14 @@ class Sessao extends ChangeNotifier{
   Sessao.fromDocument(DocumentSnapshot document){
     name = document["name"] as String?;
     type = document["type"] as String?;
+    id = document.id;
     items = (document["items"] as List).map((item) => ItemSessao.fromMap(item)).toList();
   }
 
   Sessao clone (){
     return Sessao(
       name: name,
+      id: id,
       type: type,
       items: items?.map((e) => e.clone()).toList()
     );
@@ -50,5 +53,22 @@ class Sessao extends ChangeNotifier{
       error = null;
     }
     return error == null;
+  }
+
+  Future<void> save()async{
+    final Map<String,dynamic> data={
+      "name": name,
+      "type":type,
+      //"items": items?.map((item) => item.toMap()).toList();
+    };
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    if(id==null){
+
+      final doc = await firestore.collection("home").add(data);
+      id = doc.id;
+    }else{
+      DocumentReference getCurrentDoc = firestore.doc("products/$id");
+      await getCurrentDoc.update(data);
+    }
   }
 }
