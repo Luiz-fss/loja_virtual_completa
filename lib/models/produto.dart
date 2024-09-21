@@ -125,7 +125,7 @@ class Produto extends ChangeNotifier{
         listUpdateImages.add(newImage as String);
       }else{
         final task = await storageRef.child(Uuid().v1()).putFile(newImage as File);
-        final url = await task.ref.getDownloadURL();
+        final url = await task.ref.getDownloadURL() as String;
         listUpdateImages.add(url);
       }
     }
