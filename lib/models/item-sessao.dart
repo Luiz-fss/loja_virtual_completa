@@ -16,4 +16,11 @@ class ItemSessao{
     );
   }
 
+  Map<String,dynamic> toMap (){
+    return{
+      "image":image,
+      "product":product
+    };
+  }
+
 }

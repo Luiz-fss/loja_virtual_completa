@@ -1,6 +1,11 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:loja_virtual_completa/models/item-sessao.dart';
+import 'package:uuid/uuid.dart';
 
 class Sessao extends ChangeNotifier{
 
@@ -8,6 +13,7 @@ class Sessao extends ChangeNotifier{
   String? type;
   String? id;
   List<ItemSessao>? items;
+  List<ItemSessao>? originalItems;
   String? _error = "";
 
   String get error => _error ?? "";
@@ -16,7 +22,7 @@ class Sessao extends ChangeNotifier{
     notifyListeners();
   }
 
-  Sessao({this.name,this.items,this.type,this.id}){items = items ?? [];}
+  Sessao({this.name,this.items,this.type,this.id}){items = items ?? [];originalItems = List.from(items ?? []);}
 
   void addItem(ItemSessao item){
     items?.add(item);
@@ -70,5 +76,34 @@ class Sessao extends ChangeNotifier{
       DocumentReference getCurrentDoc = firestore.doc("products/$id");
       await getCurrentDoc.update(data);
     }
+
+    FirebaseStorage storage = FirebaseStorage.instance;
+    Reference storageRef = storage.ref().child("home").child(id!);
+    for(final item in items ?? []){
+      if(item.image is File){
+        final task = await storageRef.child(Uuid().v1()).putFile(item.image as File);
+        final url = await task.ref.getDownloadURL() as String;
+        item.image = url;
+      }
+    }
+
+    for(final original in originalItems ?? []){
+      if(items != null && !items!.contains(original)){
+        try{
+          final ref = await storage.refFromURL(original.image as String);
+          await ref.delete();
+        }catch(e){
+          debugPrintStack();
+        }
+      }
+    }
+
+    final Map<String,dynamic> itemsData = {
+      "name":name,
+      "type":type,
+      "items": items?.map((e) => e.toMap()).toList()
+    };
+
+    await firestore.collection("home").doc(id!).update(itemsData);
   }
 }
