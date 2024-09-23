@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                           );
                         }
                         return IconButton(
-                          icon: const Icon(Icons.shopping_cart),
+                          icon: const Icon(Icons.edit),
                           color: Colors.white,
                           onPressed: homeManager.enterEditing,
                         );
@@ -82,12 +82,13 @@ class HomeScreen extends StatelessWidget {
               ),
               Consumer<GerenciadorHome>(
                 builder: (_,homeManager,__){
+
                   final List<Widget> children = homeManager.sections.map((sessao){
                     switch(sessao.type){
                       case "List":
-                        return SessaoLista();
+                        return SessaoLista(sessao);
                       case "Staggered":
-                        return SessaoStaggered();
+                        return SessaoStaggered(sessao);
                       default:
                         return Container();
                     }

@@ -19,12 +19,12 @@ class ItemTile extends StatelessWidget {
     return GestureDetector(
       child: AspectRatio(
         aspectRatio: 1,
-        child: itemSessao is String ?
+        child:
         FadeInImage.memoryNetwork(
           placeholder: kTransparentImage,
           image: itemSessao.image!,
           fit: BoxFit.cover,
-        ): Image.file(itemSessao.image as File,fit: BoxFit.cover,)
+        )
       ),
       onTap: (){
         if(itemSessao.product != null){

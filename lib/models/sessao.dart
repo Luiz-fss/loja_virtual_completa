@@ -9,6 +9,22 @@ import 'package:uuid/uuid.dart';
 
 class Sessao extends ChangeNotifier{
 
+
+  Sessao({this.name,this.items,this.type,this.id}){items = items ?? [];originalItems = List.from(items ?? []);}
+
+  Sessao.fromDocument(DocumentSnapshot document){
+    name = document["name"] as String?;
+    type = document["type"] as String?;
+    id = document.id;
+    items = (document["items"] as List).map((item) => ItemSessao.fromMap(item)).toList();
+  }
+
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseStorage storage = FirebaseStorage.instance;
+
+  DocumentReference get firestoreRef => firestore.doc('home/$id');
+  Reference get storageRef => storage.ref().child('home/$id');
+
   String? name;
   String? type;
   String? id;
@@ -22,8 +38,6 @@ class Sessao extends ChangeNotifier{
     notifyListeners();
   }
 
-  Sessao({this.name,this.items,this.type,this.id}){items = items ?? [];originalItems = List.from(items ?? []);}
-
   void addItem(ItemSessao item){
     items?.add(item);
     notifyListeners();
@@ -32,13 +46,6 @@ class Sessao extends ChangeNotifier{
   void removeItem(ItemSessao item){
     items?.remove(item);
     notifyListeners();
-  }
-
-  Sessao.fromDocument(DocumentSnapshot document){
-    name = document["name"] as String?;
-    type = document["type"] as String?;
-    id = document.id;
-    items = (document["items"] as List).map((item) => ItemSessao.fromMap(item)).toList();
   }
 
   Sessao clone (){
@@ -50,35 +57,20 @@ class Sessao extends ChangeNotifier{
     );
   }
 
-  bool valid(){
-    if(name == null || name!.isEmpty){
-      error = "Título inválido";
-    }else if(items == null || items!.isEmpty){
-      error = "Insira ao menos uma imagem";
-    }else{
-      error = null;
-    }
-    return error == null;
-  }
-
   Future<void> save()async{
     final Map<String,dynamic> data={
       "name": name,
       "type":type,
-      //"items": items?.map((item) => item.toMap()).toList();
     };
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
     if(id==null){
 
       final doc = await firestore.collection("home").add(data);
       id = doc.id;
     }else{
-      DocumentReference getCurrentDoc = firestore.doc("products/$id");
-      await getCurrentDoc.update(data);
+      await firestoreRef.update(data);
     }
 
-    FirebaseStorage storage = FirebaseStorage.instance;
-    Reference storageRef = storage.ref().child("home").child(id!);
     for(final item in items ?? []){
       if(item.image is File){
         final task = await storageRef.child(Uuid().v1()).putFile(item.image as File);
@@ -106,4 +98,16 @@ class Sessao extends ChangeNotifier{
 
     await firestore.collection("home").doc(id!).update(itemsData);
   }
+
+  bool valid(){
+    if(name == null || name!.isEmpty){
+      error = "Título inválido";
+    }else if(items == null || items!.isEmpty){
+      error = "Insira ao menos uma imagem";
+    }else{
+      error = null;
+    }
+    return error == null;
+  }
+
 }

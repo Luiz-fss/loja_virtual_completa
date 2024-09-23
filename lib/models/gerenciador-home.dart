@@ -13,9 +13,9 @@ class GerenciadorHome extends ChangeNotifier{
 
   List<Sessao> get sections {
     if(editing){
-      return _sessoes;
+      return _editingSections;
     }
-    return _editingSections;
+    return _sessoes;
   }
 
 
@@ -24,7 +24,7 @@ class GerenciadorHome extends ChangeNotifier{
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   Future<void> _carregarSessoes() async{
     firebaseFirestore.collection("home").snapshots().listen((snapshot) {
-      _sessoes = [];
+      _sessoes.clear();
       for(final DocumentSnapshot documentSnapshot in snapshot.docs){
         _sessoes.add(Sessao.fromDocument(documentSnapshot));
       }
