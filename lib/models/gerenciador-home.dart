@@ -11,6 +11,8 @@ class GerenciadorHome extends ChangeNotifier{
   List<Sessao> _sessoes=[];
   List<Sessao> _editingSections=[];
 
+  bool loading = false;
+
   List<Sessao> get sections {
     if(editing){
       return _editingSections;
@@ -23,7 +25,7 @@ class GerenciadorHome extends ChangeNotifier{
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   Future<void> _carregarSessoes() async{
-    firebaseFirestore.collection("home").snapshots().listen((snapshot) {
+    firebaseFirestore.collection("home").orderBy("pos").snapshots().listen((snapshot) {
       _sessoes.clear();
       for(final DocumentSnapshot documentSnapshot in snapshot.docs){
         _sessoes.add(Sessao.fromDocument(documentSnapshot));
@@ -47,9 +49,20 @@ class GerenciadorHome extends ChangeNotifier{
      return;
     }
 
+    loading = true;
+    notifyListeners();
+    int pos = 0;
     for(final section in _editingSections){
-      await section.save();
+      await section.save(pos);
+      pos++;
     }
+
+    for(final section in List.from(_sessoes)){
+      if(_editingSections.any((element)=> element.id == section.id)){
+        await section.delete();
+      }
+    }
+    loading = false;
     editing = false;
     notifyListeners();
   }
