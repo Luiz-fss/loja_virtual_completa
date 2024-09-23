@@ -7,15 +7,14 @@ import 'package:loja_virtual_completa/telas/home/components/item-tile.dart';
 import 'package:provider/provider.dart';
 
 class SessaoLista extends StatelessWidget {
-
-  const SessaoLista({Key? key, }) : super(key: key);
+  final Sessao section;
+  const SessaoLista(this.section);
 
   @override
   Widget build(BuildContext context) {
     final homeManager = context.watch<GerenciadorHome>();
-    final sessao = context.watch<Sessao>();
     return ChangeNotifierProvider.value(
-      value: sessao,
+      value: section,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
         child: Column(
