@@ -57,10 +57,11 @@ class Sessao extends ChangeNotifier{
     );
   }
 
-  Future<void> save()async{
+  Future<void> save(int pos)async{
     final Map<String,dynamic> data={
       "name": name,
       "type":type,
+      "pos":pos
     };
 
     if(id==null){
@@ -108,6 +109,18 @@ class Sessao extends ChangeNotifier{
       error = null;
     }
     return error == null;
+  }
+
+  Future<void> delete()async{
+    await firestoreRef.delete();
+    for(final item in items ?? []){
+      try{
+        final ref = await storage.refFromURL(item.image as String);
+        await ref.delete();
+      }catch(e){
+        //
+      }
+    }
   }
 
 }

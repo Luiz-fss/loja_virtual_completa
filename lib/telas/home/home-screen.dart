@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Consumer2<GerenciadorUsuario,GerenciadorHome>(
                     builder: (context,userManager,homeManager,__){
-                      if(userManager.usuarioLogado){
+                      if(userManager.usuarioLogado && !homeManager.loading){
                         if(homeManager.editing){
                           return PopupMenuButton(
                             onSelected: (e){
@@ -82,7 +82,14 @@ class HomeScreen extends StatelessWidget {
               ),
               Consumer<GerenciadorHome>(
                 builder: (_,homeManager,__){
-
+                  if(homeManager.loading){
+                    return SliverToBoxAdapter(
+                      child: LinearProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                        backgroundColor: Colors.transparent,
+                      ),
+                    );
+                  }
                   final List<Widget> children = homeManager.sections.map((sessao){
                     switch(sessao.type){
                       case "List":
