@@ -56,7 +56,18 @@ class ListTileProduto extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).primaryColor
                       ),
-                    )
+                    ),
+                    if(!produto.temStock)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 4),
+                        child: Text(
+                          'Sem estoque',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 10
+                          ),
+                        ),
+                      )
                   ],
                 ),
               )
