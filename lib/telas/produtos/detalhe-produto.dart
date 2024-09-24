@@ -96,7 +96,7 @@ class DetalheProduto extends StatelessWidget {
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: produto.tamanhos!.map((w) {
+                    children: produto.tamanhos.map((w) {
                       return ItemTamanho(w);
                     }).toList(),
                   ),

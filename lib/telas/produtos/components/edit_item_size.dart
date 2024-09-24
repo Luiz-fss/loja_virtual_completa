@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/componentes-gerais/icon-button-customizado.dart';
-import 'package:loja_virtual_completa/models/tamanho-item.dart';
+import 'package:loja_virtual_completa/models/item-size.dart';
 import 'package:loja_virtual_completa/telas/produtos/item-tamanho.dart';
 
 class EditItemSize extends StatelessWidget {
-  final TamanhoItem size;
+  final ItemSize size;
   final VoidCallback onRemove;
   final VoidCallback? onMoveUp;
   final VoidCallback? onMoveDown;
@@ -17,9 +17,9 @@ class EditItemSize extends StatelessWidget {
         Expanded(
           flex: 30,
           child: TextFormField(
-            initialValue: size.nome,
+            initialValue: size.name,
             onChanged: (name){
-              size.nome = name;
+              size.name = name;
             },
             validator: (name){
               if(name == null || name.isEmpty){
@@ -60,9 +60,9 @@ class EditItemSize extends StatelessWidget {
         Expanded(
           flex: 40,
           child: TextFormField(
-            initialValue: size.preco?.toStringAsFixed(2),
+            initialValue: size.price?.toStringAsFixed(2),
             onChanged: (price){
-              size.preco = double.tryParse(price);
+              size.price = double.tryParse(price);
             },
             validator: (price){
               if(price == null || double.tryParse(price) == null){

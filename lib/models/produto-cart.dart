@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:loja_virtual_completa/models/produto.dart';
-import 'package:loja_virtual_completa/models/tamanho-item.dart';
+import 'package:loja_virtual_completa/models/item-size.dart';
 
 class ProdutoCart extends ChangeNotifier {
 
@@ -11,7 +11,7 @@ class ProdutoCart extends ChangeNotifier {
   ProdutoCart.fromProduct(this.produto){
     productId = produto?.id!;
     quantidade = 1;
-    tamanho = produto?.tamanhos.first.nome;
+    tamanho = produto?.tamanhos.first.name;
   }
 
   ProdutoCart.fromDocument(DocumentSnapshot documentSnapshot){
@@ -51,7 +51,7 @@ class ProdutoCart extends ChangeNotifier {
     }
   }
 
-  TamanhoItem? get tamanhoDoItem{
+  ItemSize? get tamanhoDoItem{
     if(produto == null){
       return null;
     }else {
@@ -63,12 +63,12 @@ class ProdutoCart extends ChangeNotifier {
     if(produto==null){
       return 0;
     }else{
-      return tamanhoDoItem?.preco ?? 0;
+      return tamanhoDoItem?.price ?? 0;
     }
   }
 
   bool stackable(Produto produto){
-    return produto.id == productId && produto.tamanhos.first.nome == tamanho;
+    return produto.id == productId && produto.tamanhos.first.name == tamanho;
   }
 
   void incrementar(){

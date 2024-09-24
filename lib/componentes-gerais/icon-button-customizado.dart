@@ -10,7 +10,7 @@ class IconButtonCustomizado extends StatelessWidget {
 
   final IconData iconData;
   final Color corIcone;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

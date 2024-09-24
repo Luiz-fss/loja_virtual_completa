@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/componentes-gerais/icon-button-customizado.dart';
 import 'package:loja_virtual_completa/models/produto.dart';
-import 'package:loja_virtual_completa/models/tamanho-item.dart';
+import 'package:loja_virtual_completa/models/item-size.dart';
 import 'package:loja_virtual_completa/telas/produtos/components/edit_item_size.dart';
 
 class SizesForm extends StatelessWidget {
@@ -10,7 +10,7 @@ class SizesForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FormField<List<TamanhoItem>>(
+    return FormField<List<ItemSize>>(
       initialValue: product.tamanhos,
       validator: (sizes) {
         if (sizes == null || sizes.isEmpty) {
@@ -34,7 +34,7 @@ class SizesForm extends StatelessWidget {
                     iconData: Icons.add,
                     corIcone: Colors.black,
                     onTap: () {
-                      state.value?.add(TamanhoItem());
+                      state.value?.add(ItemSize());
                       state.didChange(state.value);
                     })
               ],

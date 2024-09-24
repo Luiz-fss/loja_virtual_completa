@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:loja_virtual_completa/models/tamanho-item.dart';
+import 'package:loja_virtual_completa/models/item-size.dart';
 import 'package:loja_virtual_completa/telas/produtos/item-tamanho.dart';
 import 'package:uuid/uuid.dart';
 
@@ -19,7 +19,7 @@ class Produto extends ChangeNotifier{
     images = List<String>.from(documentSnapshot["images"] as List<dynamic>);
     id = documentSnapshot.id;
     tamanhos = (documentSnapshot["sizes"] as
-    List<dynamic>).map((e) => TamanhoItem.fromMap(e)).toList();
+    List<dynamic>).map((e) => ItemSize.fromMap(e)).toList();
 
   }
 
@@ -43,13 +43,13 @@ class Produto extends ChangeNotifier{
     notifyListeners();
   }
 
-  List<TamanhoItem> tamanhos = [];
+  List<ItemSize> tamanhos = [];
 
-  TamanhoItem? _tamanhoSelecionado;
+  ItemSize? _selectedSize = ItemSize();
 
-  TamanhoItem get selecionarTamanho  => _tamanhoSelecionado!;
-  set selecionarTamanho(TamanhoItem valor){
-    _tamanhoSelecionado = valor;
+  ItemSize get selectedSize  => _selectedSize!;
+  set selectedSize(ItemSize valor){
+    _selectedSize = valor;
     notifyListeners();
   }
 
@@ -64,8 +64,8 @@ class Produto extends ChangeNotifier{
   num get basePrice{
     num lowest = double.infinity;
     for(final size in tamanhos){
-      if(size.preco! < lowest && size.temStock){
-        lowest = size.preco!;
+      if(size.price! < lowest && size.hasStock){
+        lowest = size.price!;
       }
     }
     return lowest;
@@ -74,10 +74,10 @@ class Produto extends ChangeNotifier{
   bool get temStock {
     return totalStock >0;}
 
-  TamanhoItem? encontrarTamanho(String nome){
+  ItemSize? encontrarTamanho(String nome){
     try {
       for(int i =0; i < tamanhos.length;i++){
-        if(tamanhos[i].nome == nome){
+        if(tamanhos[i].name == nome){
           return tamanhos[i];
         }
       }
