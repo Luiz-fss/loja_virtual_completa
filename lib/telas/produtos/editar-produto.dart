@@ -9,7 +9,7 @@ class EditarProduto extends StatelessWidget {
   final Produto produto;
   EditarProduto(Produto? p)
       : editing = p != null,
-        produto = p != null ? p.clone() : Produto(tamanhos: []);
+        produto = p != null ? p.clone() : Produto(sizes: []);
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
