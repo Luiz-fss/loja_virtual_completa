@@ -8,9 +8,9 @@ import 'package:uuid/uuid.dart';
 
 class Produto extends ChangeNotifier{
 
-  Produto({this.id,this.description,this.name,this.images,required this.tamanhos}){
+  Produto({this.id,this.description,this.name,this.images,required this.sizes}){
     images = images ?? [];
-    tamanhos = tamanhos ?? [];
+    sizes = sizes ?? [];
   }
 
   Produto.fromDocument(DocumentSnapshot documentSnapshot){
@@ -18,7 +18,7 @@ class Produto extends ChangeNotifier{
     description = documentSnapshot["description"] as String;
     images = List<String>.from(documentSnapshot["images"] as List<dynamic>);
     id = documentSnapshot.id;
-    tamanhos = (documentSnapshot["sizes"] as
+    sizes = (documentSnapshot["sizes"] as
     List<dynamic>).map((e) => ItemSize.fromMap(e)).toList();
 
   }
@@ -43,7 +43,7 @@ class Produto extends ChangeNotifier{
     notifyListeners();
   }
 
-  List<ItemSize> tamanhos = [];
+  List<ItemSize> sizes = [];
 
   ItemSize? _selectedSize = ItemSize();
 
@@ -55,7 +55,7 @@ class Produto extends ChangeNotifier{
 
   int get totalStock{
     int stock = 0;
-    for(final tamanho in tamanhos){
+    for(final tamanho in sizes){
       stock = stock+ tamanho.stock!;
     }
     return stock;
@@ -63,7 +63,7 @@ class Produto extends ChangeNotifier{
 
   num get basePrice{
     num lowest = double.infinity;
-    for(final size in tamanhos){
+    for(final size in sizes){
       if(size.price! < lowest && size.hasStock){
         lowest = size.price!;
       }
@@ -71,16 +71,12 @@ class Produto extends ChangeNotifier{
     return lowest;
   }
 
-  bool get temStock {
+  bool get hasStock {
     return totalStock >0;}
 
-  ItemSize? encontrarTamanho(String nome){
+  ItemSize? findSize(String nome){
     try {
-      for(int i =0; i < tamanhos.length;i++){
-        if(tamanhos[i].name == nome){
-          return tamanhos[i];
-        }
-      }
+      return sizes.firstWhere((s) => s.name == nome);
     }catch(e){
       return null;
     }
@@ -92,12 +88,12 @@ class Produto extends ChangeNotifier{
       name: name,
       description: description,
       images: List.from(images!),
-      tamanhos: tamanhos.map((e) => e.clone()).toList()
+      sizes: sizes.map((e) => e.clone()).toList()
     );
   }
 
   List<Map<String,dynamic>> exportSizeList (){
-    return tamanhos.map((size) => size.toMap()).toList();
+    return sizes.map((size) => size.toMap()).toList();
   }
 
   Future<void> save ()async{

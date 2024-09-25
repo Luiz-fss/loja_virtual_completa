@@ -1,90 +1,98 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
-import 'package:loja_virtual_completa/models/produto-cart.dart';
+import 'package:loja_virtual_completa/models/cart-product.dart';
 import 'package:loja_virtual_completa/models/produto.dart';
 import 'package:loja_virtual_completa/models/usuario-model.dart';
 
 class GerenciadorCarrinho extends ChangeNotifier{
-  List<ProdutoCart> itens = [];
+  List<CartProduct> items = [];
 
-  Usuario? usuario = Usuario();
+  Usuario? user = Usuario();
 
-  num precoProdutos = 0;
+  num productsPrice = 0;
+  num get totalPrice => productsPrice;
 
-  void adicionarAoCarrinho(Produto produto) {
-    try {
-      final e = itens.firstWhere((element) => element.stackable(produto));
-      e.incrementar();
-    } catch (e) {
-      final produtoCarrinho = ProdutoCart.fromProduct(produto);
-      produtoCarrinho.addListener(_atualizarItem);
-      itens.add(produtoCarrinho);
-      usuario?.referenciaCarrinho
-          .add(produtoCarrinho.toCartItemMap())
-          .then((doc) => produtoCarrinho.id = doc.id);
-      _atualizarItem();
+  void updateUser(GerenciadorUsuario? gerenciadorUsuario) {
+    user = gerenciadorUsuario?.usuarioAtual;
+    items.clear();
+
+    if (user != null) {
+      _loadCartItems();
     }
   }
 
-  void _atualizarItem() {
-    precoProdutos = 0;
-    for (int i =0; i<itens.length; i++) {
-      final cartProduct = itens[i];
-      if (cartProduct.quantidade == 0) {
-        removerDoCarrinho(cartProduct);
+  Future<void> _loadCartItems() async {
+    final QuerySnapshot? cartSnapshot = await user?.cartReference.get();
+    if (cartSnapshot != null) {
+      items = cartSnapshot.docs
+          .map((e) => CartProduct.fromDocument(e)..addListener(_onItemUpdated))
+          .toList();
+    }
+  }
+
+
+  void addToCart(Produto produto) {
+    try {
+      final e = items.firstWhere((element) => element.stackable(produto));
+      e.increment();
+    } catch (e) {
+      final produtoCarrinho = CartProduct.fromProduct(produto);
+      produtoCarrinho.addListener(_onItemUpdated);
+      items.add(produtoCarrinho);
+      user?.cartReference
+          .add(produtoCarrinho.toCartItemMap())
+          .then((doc) => produtoCarrinho.id = doc.id);
+      _onItemUpdated();
+    }
+    notifyListeners();
+  }
+
+
+  void removerOfCart(CartProduct produtoCart) {
+    items.removeWhere((p) => p.id == produtoCart.id);
+    user?.cartReference.doc(produtoCart.id).delete();
+    produtoCart.removeListener(_onItemUpdated);
+    notifyListeners();
+  }
+
+  void clear() {
+    for(final cartProduct in items){
+      user!.cartReference.doc(cartProduct.id).delete();
+    }
+    items.clear();
+    notifyListeners();
+  }
+
+  void _onItemUpdated() {
+    productsPrice = 0.0;
+    for (int i =0; i<items.length; i++) {
+      final cartProduct = items[i];
+      if (cartProduct.quantity == 0) {
+        removerOfCart(cartProduct);
         i--;
         continue;
 
       }
-      precoProdutos += cartProduct.totalPrice;
-      _atualizarProdutoCarrinho(cartProduct);
+      productsPrice += cartProduct.totalPrice;
+      _updateCartProduct(cartProduct);
     }
     notifyListeners();
   }
 
-  void removerDoCarrinho(ProdutoCart produtoCart) {
-    itens.removeWhere((p) => p.id == produtoCart.id);
-    usuario?.referenciaCarrinho.doc(produtoCart.id).delete();
-    produtoCart.removeListener(_atualizarItem);
-    notifyListeners();
-  }
 
-  void _atualizarProdutoCarrinho(ProdutoCart? produtoCart) {
+  void _updateCartProduct(CartProduct? produtoCart) {
     if(produtoCart != null){
-      usuario?.referenciaCarrinho
+      user?.cartReference
           .doc(produtoCart.id)
           .update(produtoCart.toCartItemMap());
     }
 
   }
-
-  void updateUser(GerenciadorUsuario? gerenciadorUsuario) {
-    usuario = gerenciadorUsuario?.usuarioAtual;
-    itens.clear();
-
-    if (usuario != null) {
-      _carregarItensDoCarrinho();
+  bool get isCartValid {
+    for(final cartProduct in items){
+      if(!cartProduct.hasStock) return false;
     }
-  }
-
-  Future<void> _carregarItensDoCarrinho() async {
-    final QuerySnapshot? cartSnapshot = await usuario?.referenciaCarrinho.get();
-    if (cartSnapshot != null) {
-      itens = cartSnapshot.docs
-          .map((e) => ProdutoCart.fromDocument(e)..addListener(_atualizarItem))
-          .toList();
-    }
-
-  }
-
-  bool get carrinhoValido {
-    bool carrinhoValido = true;
-    for (final cartProduct in itens) {
-      if (!cartProduct.verificarEstoque) {
-        carrinhoValido = false;
-      }
-    }
-    return carrinhoValido;
+    return true;
   }
 }

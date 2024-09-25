@@ -57,7 +57,7 @@ class ListTileProduto extends StatelessWidget {
                         color: Theme.of(context).primaryColor
                       ),
                     ),
-                    if(!produto.temStock)
+                    if(!produto.hasStock)
                       const Padding(
                         padding: EdgeInsets.only(top: 4),
                         child: Text(

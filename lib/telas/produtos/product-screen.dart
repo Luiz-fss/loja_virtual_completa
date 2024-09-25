@@ -6,9 +6,9 @@ import 'package:loja_virtual_completa/models/produto.dart';
 import 'package:loja_virtual_completa/telas/produtos/item-tamanho.dart';
 import 'package:provider/provider.dart';
 
-class DetalheProduto extends StatelessWidget {
+class ProductScreen extends StatelessWidget {
   final Produto produto;
-  DetalheProduto(this.produto);
+  ProductScreen(this.produto);
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class DetalheProduto extends StatelessWidget {
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: produto.tamanhos.map((w) {
+                    children: produto.sizes.map((w) {
                       return ItemTamanho(w);
                     }).toList(),
                   ),
@@ -122,18 +122,18 @@ class DetalheProduto extends StatelessWidget {
   }
 
   Widget _retornarBotao(BuildContext context) {
-    if (produto.temStock) {
+    if (produto.hasStock) {
       return Consumer2<GerenciadorUsuario, Produto>(
         builder: (_, gerenciadorUsuario, produto, child) {
           return SizedBox(
             height: 44,
             child: ElevatedButton(
-              onPressed: produto.itemSelecionado
+              onPressed: produto.selectedSize != null && produto.selectedSize.name != null
                   ? () {
                       if (gerenciadorUsuario.usuarioLogado) {
                         context
                             .read<GerenciadorCarrinho>()
-                            .adicionarAoCarrinho(produto);
+                            .addToCart(produto);
                         Navigator.pushNamed(context, "/tela-carrinho");
                       } else {
                         Navigator.of(context).pushNamed("/tela-login");

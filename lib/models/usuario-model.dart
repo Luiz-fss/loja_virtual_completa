@@ -9,7 +9,7 @@ class Usuario {
   bool? admin = false;
 
   DocumentReference get firestoreRef => FirebaseFirestore.instance.doc("users/$id");
-  CollectionReference get referenciaCarrinho => firestoreRef.collection("cart");
+  CollectionReference get cartReference => firestoreRef.collection("cart");
 
   Usuario({this.email, this.senha});
 

@@ -21,11 +21,11 @@ class TelaCarrinho extends StatelessWidget {
             children: [
               Column(
                 children:
-                    gerenciadorCarrinho.itens.map((e) => CartTile(e)).toList(),
+                    gerenciadorCarrinho.items.map((e) => CartTile(e)).toList(),
               ),
               PriceCard(
                 buttonText: "Continuar para entrega",
-                onPressed: gerenciadorCarrinho.carrinhoValido
+                onPressed: gerenciadorCarrinho.isCartValid
                     ? () {}
                 : null,
               )

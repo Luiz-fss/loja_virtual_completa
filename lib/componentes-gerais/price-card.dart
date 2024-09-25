@@ -11,7 +11,8 @@ class PriceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartManager = context.watch<GerenciadorCarrinho>();
-    final productsPrice = cartManager.precoProdutos;
+    final productsPrice = cartManager.productsPrice;
+    final totalPrice = cartManager.totalPrice;
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
       child: Padding(
@@ -41,7 +42,7 @@ class PriceCard extends StatelessWidget {
                 Text("Total",
                 style: TextStyle(fontWeight: FontWeight.w500),),
                 Text(
-                  "R\$ 19",
+                  'R\$ ${totalPrice.toStringAsFixed(2)}',
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontSize: 16
