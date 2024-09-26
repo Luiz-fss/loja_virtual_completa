@@ -111,7 +111,7 @@ class EditarProduto extends StatelessWidget {
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Theme.of(context).primaryColor),
+                                        Colors.white),
                               ),
                               child: product.loading
                                   ? const CircularProgressIndicator(

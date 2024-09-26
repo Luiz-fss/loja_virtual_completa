@@ -9,6 +9,7 @@ import 'package:loja_virtual_completa/models/gerenciador-produtos.dart';
 import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
 import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/models/usuario-model.dart';
+import 'package:loja_virtual_completa/telas/address/address-screen.dart';
 import 'package:loja_virtual_completa/telas/carrinho/tela-carrinho.dart';
 import 'package:loja_virtual_completa/telas/login/cadastro-conta.dart';
 import 'package:loja_virtual_completa/telas/login/tela-login.dart';
@@ -72,6 +73,8 @@ class MyApp extends StatelessWidget {
           switch(settings.name){
             case "/tela-base":
               return MaterialPageRoute(builder: (_)=>TelaBase());
+            case "/address-screen":
+              return MaterialPageRoute(builder: (_)=>AddressScreen());
             case "/cadastro-conta":
               return MaterialPageRoute(builder: (_)=> CadastroConta());
             case "/tela-login":

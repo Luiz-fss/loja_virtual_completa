@@ -26,7 +26,9 @@ class TelaCarrinho extends StatelessWidget {
               PriceCard(
                 buttonText: "Continuar para entrega",
                 onPressed: gerenciadorCarrinho.isCartValid
-                    ? () {}
+                    ? () {
+                  Navigator.pushNamed(context, "/address-screen");
+                }
                 : null,
               )
             ],
