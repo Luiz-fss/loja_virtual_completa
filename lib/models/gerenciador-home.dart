@@ -1,49 +1,60 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:loja_virtual_completa/models/sessao.dart';
+import 'package:loja_virtual_completa/models/section.dart';
 
 class GerenciadorHome extends ChangeNotifier{
 
   GerenciadorHome(){
-    _carregarSessoes();
+    _loadingSections();
   }
 
-  List<Sessao> _sessoes=[];
-  List<Sessao> _editingSections=[];
+  List<Section> _sections=[];
+  List<Section> _editingSections=[];
 
   bool loading = false;
-
-  List<Sessao> get sections {
-    if(editing){
-      return _editingSections;
-    }
-    return _sessoes;
-  }
-
-
   bool editing = false;
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  Future<void> _carregarSessoes() async{
+
+  Future<void> _loadingSections() async{
     firebaseFirestore.collection("home").orderBy("pos").snapshots().listen((snapshot) {
-      _sessoes.clear();
+      _sections.clear();
       for(final DocumentSnapshot documentSnapshot in snapshot.docs){
-        _sessoes.add(Sessao.fromDocument(documentSnapshot));
+        _sections.add(Section.fromDocument(documentSnapshot));
       }
       notifyListeners();
     });
   }
 
+  void addSection (Section sessao){
+    _editingSections.add(sessao);
+    notifyListeners();
+  }
+
+  void removerSection(Section sessao){
+    _editingSections.remove(sessao);
+    notifyListeners();
+  }
+
+  List<Section> get sections {
+    if(editing){
+      return _editingSections;
+    }
+    return _sections;
+  }
+
   void enterEditing(){
     editing = true;
-    _editingSections = _sessoes.map((s) => s.clone()).toList();
+    _editingSections = _sections.map((s) => s.clone()).toList();
     notifyListeners();
   }
 
   void saveEditing()async{
     bool valid = true;
     for(final section in _editingSections){
-      if(!section.valid()) valid = false;
+      if(!section.valid()){
+        valid = false;
+      }
     }
     if(!valid){
      return;
@@ -57,7 +68,7 @@ class GerenciadorHome extends ChangeNotifier{
       pos++;
     }
 
-    for(final section in List.from(_sessoes)){
+    for(final section in List.from(_sections)){
       if(_editingSections.any((element)=> element.id == section.id)){
         await section.delete();
       }
@@ -70,16 +81,6 @@ class GerenciadorHome extends ChangeNotifier{
   void descardEditing(){
 
     editing = false;
-    notifyListeners();
-  }
-
-  void addSection (Sessao sessao){
-    _editingSections.add(sessao);
-    notifyListeners();
-  }
-
-  void removerSection(Sessao sessao){
-    _editingSections.remove(sessao);
     notifyListeners();
   }
 }

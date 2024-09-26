@@ -2,12 +2,12 @@ import 'package:banner_carousel/banner_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/gerenciador-cart.dart';
 import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
-import 'package:loja_virtual_completa/models/produto.dart';
+import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/telas/produtos/item-tamanho.dart';
 import 'package:provider/provider.dart';
 
 class ProductScreen extends StatelessWidget {
-  final Produto produto;
+  final Product produto;
   ProductScreen(this.produto);
 
   @override
@@ -96,9 +96,9 @@ class ProductScreen extends StatelessWidget {
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: produto.sizes.map((w) {
+                    children: produto.sizes != null ? produto.sizes!.map((w) {
                       return ItemTamanho(w);
-                    }).toList(),
+                    }).toList(): []
                   ),
                   const SizedBox(
                     height: 20,
@@ -123,7 +123,7 @@ class ProductScreen extends StatelessWidget {
 
   Widget _retornarBotao(BuildContext context) {
     if (produto.hasStock) {
-      return Consumer2<GerenciadorUsuario, Produto>(
+      return Consumer2<GerenciadorUsuario, Product>(
         builder: (_, gerenciadorUsuario, produto, child) {
           return SizedBox(
             height: 44,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:loja_virtual_completa/models/produto.dart';
+import 'package:loja_virtual_completa/models/product.dart';
 
 class ListTileProduto extends StatelessWidget {
   ListTileProduto({Key? key, required this.produto}) : super(key: key);
 
-  final Produto produto;
+  final Product produto;
 
   @override
   Widget build(BuildContext context) {

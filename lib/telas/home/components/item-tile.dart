@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/gerenciador-home.dart';
 import 'package:loja_virtual_completa/models/gerenciador-produtos.dart';
 import 'package:loja_virtual_completa/models/item-sessao.dart';
-import 'package:loja_virtual_completa/models/produto.dart';
-import 'package:loja_virtual_completa/models/sessao.dart';
+import 'package:loja_virtual_completa/models/product.dart';
+import 'package:loja_virtual_completa/models/section.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class ItemTile extends StatelessWidget {
-  final ItemSessao itemSessao;
-  const ItemTile({Key? key, required this.itemSessao}) : super(key: key);
+  final ItemSessao item;
+  const ItemTile({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +19,12 @@ class ItemTile extends StatelessWidget {
     return GestureDetector(
       child: AspectRatio(
         aspectRatio: 1,
-        child:
-        FadeInImage.memoryNetwork(
-          placeholder: kTransparentImage,
-          image: itemSessao.image!,
-          fit: BoxFit.cover,
-        )
+        child: _buildImage(),
       ),
       onTap: (){
-        if(itemSessao.product != null){
-          Produto? product = context.read<GerenciadorProduto>()
-              .encontrarProdutoPorId(itemSessao.product!);
+        if(item.product != null){
+          Product? product = context.read<GerenciadorProduto>()
+              .encontrarProdutoPorId(item.product!);
           if(product !=null){
             Navigator.of(context).pushNamed("/detalhe-produto",arguments: product);
           }
@@ -44,7 +39,7 @@ class ItemTile extends StatelessWidget {
               actions: [
                 FloatingActionButton(
                   onPressed: (){
-                    context.read<Sessao>().removeItem(itemSessao);
+                    context.read<Section>().removeItem(item);
                     Navigator.of(context).pop();
                   },
                   child: Text(
@@ -58,5 +53,16 @@ class ItemTile extends StatelessWidget {
         );
       } : null,
     );
+  }
+
+  Widget _buildImage(){
+    if(item.image is String){
+      return FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: item.image as String,
+        fit: BoxFit.cover,
+      );
+    }
+    return Image.file(item.image as File, fit: BoxFit.cover,);
   }
 }

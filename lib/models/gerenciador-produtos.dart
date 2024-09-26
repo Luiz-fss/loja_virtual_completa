@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'produto.dart';
+import 'product.dart';
 
 class GerenciadorProduto extends ChangeNotifier{
 
   GerenciadorProduto(){
     _carregarTodosProdutos();
   }
-  List<Produto> todosProdutos = [];
+  List<Product> todosProdutos = [];
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
@@ -20,8 +20,8 @@ class GerenciadorProduto extends ChangeNotifier{
     notifyListeners();
   }
 
-  List<Produto> get filtrarListaProduto{
-    List<Produto> produtosFiltrados = [];
+  List<Product> get filtrarListaProduto{
+    List<Product> produtosFiltrados = [];
     if( pesquisa.isEmpty){
       produtosFiltrados.addAll(todosProdutos);
     }else{
@@ -36,11 +36,11 @@ class GerenciadorProduto extends ChangeNotifier{
     QuerySnapshot snapshotProducts = await
     firebaseFirestore.collection("products").get();
 
-    todosProdutos = snapshotProducts.docs.map((e) => Produto.fromDocument(e)).toList();
+    todosProdutos = snapshotProducts.docs.map((e) => Product.fromDocument(e)).toList();
     notifyListeners();
   }
 
-  Produto? encontrarProdutoPorId (String id){
+  Product? encontrarProdutoPorId (String id){
     try{
       return todosProdutos.firstWhere((p) => p.id == id);
     }catch(e){
@@ -48,7 +48,7 @@ class GerenciadorProduto extends ChangeNotifier{
     }
   }
 
-  void update (Produto product){
+  void update (Product product){
     todosProdutos.retainWhere((element) => element.id == product.id);
     todosProdutos.add(product);
     notifyListeners();

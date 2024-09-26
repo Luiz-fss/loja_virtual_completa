@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/item-sessao.dart';
-import 'package:loja_virtual_completa/models/sessao.dart';
+import 'package:loja_virtual_completa/models/section.dart';
 import 'package:loja_virtual_completa/telas/produtos/components/image-source-sheet.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +13,7 @@ class AddTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sessao = context.watch<Sessao>();
+    final sessao = context.watch<Section>();
     void onImageSelect(File file){
       sessao?.addItem(ItemSessao(image: file));
       Navigator.of(context).pop();

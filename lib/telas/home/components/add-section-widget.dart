@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/gerenciador-home.dart';
-import 'package:loja_virtual_completa/models/sessao.dart';
+import 'package:loja_virtual_completa/models/section.dart';
 import 'package:provider/provider.dart';
 
 class AddSectionWidget extends StatelessWidget {
@@ -15,7 +15,7 @@ class AddSectionWidget extends StatelessWidget {
           child: TextButton(
             child: const Text("Adicionar Lista",style: TextStyle(color: Colors.white),),
             onPressed: (){
-              homeManager.addSection(Sessao(type: "List"));
+              homeManager.addSection(Section(type: "List"));
             },
           ),
         ),
@@ -23,7 +23,7 @@ class AddSectionWidget extends StatelessWidget {
           child: TextButton(
             child: const Text("Adicionar Grade",style: TextStyle(color: Colors.white),),
             onPressed: (){
-              homeManager.addSection(Sessao(type: "Staggered"));
+              homeManager.addSection(Section(type: "Staggered"));
             },
           ),
         )

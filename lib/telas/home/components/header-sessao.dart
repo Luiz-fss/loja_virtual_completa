@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/componentes-gerais/icon-button-customizado.dart';
 import 'package:loja_virtual_completa/models/gerenciador-home.dart';
-import 'package:loja_virtual_completa/models/sessao.dart';
+import 'package:loja_virtual_completa/models/section.dart';
 import 'package:provider/provider.dart';
 
 class HeaderSessao extends StatelessWidget {
@@ -11,7 +11,7 @@ class HeaderSessao extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeManager = context.watch<GerenciadorHome>();
-    final sessao = context.watch<Sessao>();
+    final sessao = context.watch<Section>();
     if(homeManager.editing){
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,10 +45,10 @@ class HeaderSessao extends StatelessWidget {
               )
             ],
           ),
-          if(sessao.error != null || sessao.error.isNotEmpty)
+          if(sessao.error != null || sessao.error!.isNotEmpty)
             Padding(
                 padding: const EdgeInsets.only(bottom: 8),
-                child: Text(sessao.error,style: const TextStyle(color: Colors.red),))
+                child: Text(sessao.error ?? "",style: const TextStyle(color: Colors.red),))
         ],
       );
     }
