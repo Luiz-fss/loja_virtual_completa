@@ -7,7 +7,7 @@ import 'package:loja_virtual_completa/models/gerenciador-cart.dart';
 import 'package:loja_virtual_completa/models/gerenciador-home.dart';
 import 'package:loja_virtual_completa/models/gerenciador-produtos.dart';
 import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
-import 'package:loja_virtual_completa/models/produto.dart';
+import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/models/usuario-model.dart';
 import 'package:loja_virtual_completa/telas/carrinho/tela-carrinho.dart';
 import 'package:loja_virtual_completa/telas/login/cadastro-conta.dart';
@@ -80,11 +80,11 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_)=> TelaCarrinho());
             case "/detalhe-produto":
               return MaterialPageRoute(builder: (_)=> ProductScreen(
-                settings.arguments as Produto
+                settings.arguments as Product
               ));
             case "/editar-produto":
               return MaterialPageRoute(builder: (_)=>EditarProduto(
-                settings.arguments as Produto,
+                settings.arguments as Product,
               ));
             default:
               return MaterialPageRoute(builder: (_)=>TelaBase());

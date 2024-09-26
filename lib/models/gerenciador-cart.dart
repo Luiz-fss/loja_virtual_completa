@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
 import 'package:loja_virtual_completa/models/cart-product.dart';
-import 'package:loja_virtual_completa/models/produto.dart';
+import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/models/usuario-model.dart';
 
 class GerenciadorCarrinho extends ChangeNotifier{
@@ -32,7 +32,7 @@ class GerenciadorCarrinho extends ChangeNotifier{
   }
 
 
-  void addToCart(Produto produto) {
+  void addToCart(Product produto) {
     try {
       final e = items.firstWhere((element) => element.stackable(produto));
       e.increment();

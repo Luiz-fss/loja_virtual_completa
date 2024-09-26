@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/componentes-gerais/icon-button-customizado.dart';
-import 'package:loja_virtual_completa/models/produto.dart';
+import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/models/item-size.dart';
 import 'package:loja_virtual_completa/telas/produtos/components/edit_item_size.dart';
 
 class SizesForm extends StatelessWidget {
-  final Produto product;
+  final Product product;
   const SizesForm({Key? key, required this.product}) : super(key: key);
 
   @override

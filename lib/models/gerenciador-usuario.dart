@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:loja_virtual_completa/firebase_options.dart';
 import 'package:loja_virtual_completa/helpers/erros-firebase.dart';
-import 'package:loja_virtual_completa/models/produto.dart';
+import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/models/usuario-model.dart';
 
 class GerenciadorUsuario extends ChangeNotifier{

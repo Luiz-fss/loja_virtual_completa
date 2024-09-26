@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/gerenciador-produtos.dart';
-import 'package:loja_virtual_completa/models/produto.dart';
+import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/models/item-size.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +10,7 @@ class ItemTamanho extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final produto = context.watch<Produto>();
+    final produto = context.watch<Product>();
     final selected = produto.selectedSize == size;
     Color color;
     if(!size.hasStock){

@@ -7,12 +7,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:loja_virtual_completa/models/item-sessao.dart';
 import 'package:uuid/uuid.dart';
 
-class Sessao extends ChangeNotifier{
+class Section extends ChangeNotifier{
 
 
-  Sessao({this.name,this.items,this.type,this.id}){items = items ?? [];originalItems = List.from(items ?? []);}
+  Section({this.name,this.items,this.type,this.id}){
+    items = items ?? [];originalItems = List.from(items ?? []);}
 
-  Sessao.fromDocument(DocumentSnapshot document){
+  Section.fromDocument(DocumentSnapshot document){
     name = document["name"] as String?;
     type = document["type"] as String?;
     id = document.id;
@@ -32,7 +33,8 @@ class Sessao extends ChangeNotifier{
   List<ItemSessao>? originalItems;
   String? _error = "";
 
-  String get error => _error ?? "";
+  String? get error => _error;
+
   set error(String? value){
     _error = value;
     notifyListeners();
@@ -46,15 +48,6 @@ class Sessao extends ChangeNotifier{
   void removeItem(ItemSessao item){
     items?.remove(item);
     notifyListeners();
-  }
-
-  Sessao clone (){
-    return Sessao(
-      name: name,
-      id: id,
-      type: type,
-      items: items?.map((e) => e.clone()).toList()
-    );
   }
 
   Future<void> save(int pos)async{
@@ -81,23 +74,37 @@ class Sessao extends ChangeNotifier{
     }
 
     for(final original in originalItems ?? []){
-      if(items != null && !items!.contains(original)){
+      if(!items!.contains(original)  && (original.image as String).contains('firebase')){
         try{
           final ref = await storage.refFromURL(original.image as String);
           await ref.delete();
+          // ignore: empty_catches
         }catch(e){
-          debugPrintStack();
+
         }
       }
     }
 
-    final Map<String,dynamic> itemsData = {
-      "name":name,
-      "type":type,
-      "items": items?.map((e) => e.toMap()).toList()
+    final Map<String, dynamic> itemsData = {
+      'items': items!.map((e) => e.toMap()).toList()
     };
 
     await firestore.collection("home").doc(id!).update(itemsData);
+  }
+
+  Future<void> delete() async {
+    await firestoreRef.delete();
+    for(final item in items ?? []){
+      if((item.image as String).contains('firebase')){
+        try {
+          final ref = await storage.refFromURL(
+              item.image as String
+          );
+          await ref.delete();
+          // ignore: empty_catches
+        } catch (e){}
+      }
+    }
   }
 
   bool valid(){
@@ -111,16 +118,13 @@ class Sessao extends ChangeNotifier{
     return error == null;
   }
 
-  Future<void> delete()async{
-    await firestoreRef.delete();
-    for(final item in items ?? []){
-      try{
-        final ref = await storage.refFromURL(item.image as String);
-        await ref.delete();
-      }catch(e){
-        //
-      }
-    }
+  Section clone (){
+    return Section(
+      name: name,
+      id: id,
+      type: type,
+      items: items?.map((e) => e.clone()).toList()
+    );
   }
 
 }

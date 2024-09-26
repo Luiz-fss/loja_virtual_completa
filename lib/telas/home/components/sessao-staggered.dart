@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:loja_virtual_completa/models/gerenciador-home.dart';
-import 'package:loja_virtual_completa/models/sessao.dart';
+import 'package:loja_virtual_completa/models/section.dart';
 import 'package:loja_virtual_completa/telas/home/components/add-tile-widget.dart';
 import 'package:loja_virtual_completa/telas/home/components/header-sessao.dart';
 import 'package:loja_virtual_completa/telas/home/components/item-tile.dart';
 import 'package:provider/provider.dart';
 
 class SessaoStaggered extends StatelessWidget {
-  final Sessao section;
+  final Section section;
   const SessaoStaggered(this.section);
 
   @override
@@ -22,7 +22,7 @@ class SessaoStaggered extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HeaderSessao(),
-            Consumer<Sessao>(
+            Consumer<Section>(
               builder: (context,sessao,__){
                 return StaggeredGridView.countBuilder(
                   shrinkWrap: true,
@@ -33,7 +33,7 @@ class SessaoStaggered extends StatelessWidget {
                   itemBuilder: (context,index){
                     if(index < sessao.items!.length){
                       return ItemTile(
-                          itemSessao:sessao.items![index]
+                          item:sessao.items![index]
                       );
                     }
                     return AddTileWidget();

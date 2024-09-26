@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/gerenciador-home.dart';
-import 'package:loja_virtual_completa/models/sessao.dart';
+import 'package:loja_virtual_completa/models/section.dart';
 import 'package:loja_virtual_completa/telas/home/components/add-tile-widget.dart';
 import 'package:loja_virtual_completa/telas/home/components/header-sessao.dart';
 import 'package:loja_virtual_completa/telas/home/components/item-tile.dart';
 import 'package:provider/provider.dart';
 
 class SessaoLista extends StatelessWidget {
-  final Sessao section;
+  final Section section;
   const SessaoLista(this.section);
 
   @override
@@ -23,7 +23,7 @@ class SessaoLista extends StatelessWidget {
             HeaderSessao(),
             SizedBox(
               height: 150,
-              child: Consumer<Sessao>(
+              child: Consumer<Section>(
                 builder: (context,sessao,__){
                   return ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -33,7 +33,7 @@ class SessaoLista extends StatelessWidget {
                       if(index < sessao.items!.length){
 
                         return ItemTile(
-                          itemSessao: sessao.items![index],
+                          item: sessao.items![index],
                         );
                       }
                       return AddTileWidget();

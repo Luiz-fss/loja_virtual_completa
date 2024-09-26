@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/gerenciador-produtos.dart';
-import 'package:loja_virtual_completa/models/produto.dart';
+import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/telas/produtos/components/images-form.dart';
 import 'package:loja_virtual_completa/telas/produtos/components/sizes-form.dart';
 import 'package:provider/provider.dart';
 
 class EditarProduto extends StatelessWidget {
-  final Produto produto;
-  EditarProduto(Produto? p)
+  final Product product;
+  EditarProduto(Product? p)
       : editing = p != null,
-        produto = p != null ? p.clone() : Produto(sizes: []);
+        product = p != null ? p.clone() : Product();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -18,7 +18,7 @@ class EditarProduto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-        value: produto,
+        value: product,
         child: Scaffold(
           appBar: AppBar(
             title: Text(editing ? "Editar Produto" : "Criar Produto"),
@@ -28,19 +28,19 @@ class EditarProduto extends StatelessWidget {
           body: Form(
             child: ListView(
               children: [
-                ImagesForm(produto),
+                ImagesForm(product),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       TextFormField(
-                        initialValue: produto.name,
+                        initialValue: product.name,
                         decoration: const InputDecoration(
                             hintText: "Título", border: InputBorder.none),
                         style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w600),
-                        onSaved: (name) => produto.name = name,
+                        onSaved: (name) => product.name = name,
                         validator: (textoTitulo) {
                           if (textoTitulo!.length < 6) {
                             return "Título muito curto";
@@ -72,12 +72,12 @@ class EditarProduto extends StatelessWidget {
                         ),
                       ),
                       TextFormField(
-                        initialValue: produto.description,
+                        initialValue: product.description,
                         style: const TextStyle(fontSize: 16),
                         decoration: const InputDecoration(
                             hintText: "Descrição", border: InputBorder.none),
                         maxLines: null,
-                        onSaved: (desc) => produto.description = desc,
+                        onSaved: (desc) => product.description = desc,
                         validator: (textoDescricao) {
                           if (textoDescricao!.length < 10) {
                             return "Descrição muito curta";
@@ -86,34 +86,34 @@ class EditarProduto extends StatelessWidget {
                         },
                       ),
                       SizesForm(
-                        product: produto,
+                        product: product,
                       ),
                       const SizedBox(
                         height: 20,
                       ),
-                      Consumer<Produto>(
+                      Consumer<Product>(
                         builder: (context, product, _) {
                           return SizedBox(
                             height: 44,
                             child: ElevatedButton(
                               onPressed: !product.loading
-                                  ? null
-                                  : () async{
-                                      if (formKey.currentState!.validate()) {
-                                        formKey.currentState!.save();
-                                        await produto.save();
-                                        context.read<GerenciadorProduto>().update(product);
-                                        Navigator.of(context).pop();
-                                      } else {
-                                        print("");
-                                      }
-                                    },
+                                  ? () async{
+                                if (formKey.currentState!.validate()) {
+                                  formKey.currentState!.save();
+                                  await product.save();
+                                  context.read<GerenciadorProduto>().update(product);
+                                  Navigator.of(context).pop();
+                                } else {
+                                  print("");
+                                }
+                              }
+                                  : null,
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
                                         Theme.of(context).primaryColor),
                               ),
-                              child: !produto.loading
+                              child: product.loading
                                   ? const CircularProgressIndicator(
                                       valueColor:
                                           AlwaysStoppedAnimation(Colors.white),

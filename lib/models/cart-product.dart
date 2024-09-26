@@ -1,7 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:loja_virtual_completa/models/produto.dart';
+import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/models/item-size.dart';
 
 class CartProduct extends ChangeNotifier {
@@ -22,7 +22,7 @@ class CartProduct extends ChangeNotifier {
     id = documentSnapshot.id;
 
     firestore.doc("products/$productId").get().then((value){
-      product = Produto.fromDocument(value);
+      product = Product.fromDocument(value);
       notifyListeners();
     });
   }
@@ -34,7 +34,7 @@ class CartProduct extends ChangeNotifier {
     fixedPrice = map['fixedPrice'] as num;
 
     firestore.doc("products/$productId").get().then((value){
-      product = Produto.fromDocument(value);
+      product = Product.fromDocument(value);
     });
   }
 
@@ -45,9 +45,9 @@ class CartProduct extends ChangeNotifier {
   String? size;
   num? fixedPrice;
 
-  Produto? _product;
-  Produto? get product => _product;
-  set product(Produto? value){
+  Product? _product;
+  Product? get product => _product;
+  set product(Product? value){
     _product = value;
     notifyListeners();
   }
@@ -79,7 +79,7 @@ class CartProduct extends ChangeNotifier {
     };
   }
 
-  bool stackable(Produto produto){
+  bool stackable(Product produto){
     return produto.id == productId && produto.selectedSize.name == size;
   }
 
