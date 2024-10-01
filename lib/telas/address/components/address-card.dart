@@ -7,22 +7,24 @@ class AddressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+    return  Card(
+      margin: EdgeInsets.symmetric(vertical: 8,horizontal: 16),
       child: Padding(
-        padding:  const EdgeInsets.fromLTRB(16, 16, 16, 4),
-        child:Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Endereço de Entrega",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16
+        padding:  EdgeInsets.fromLTRB(16, 16, 16, 4),
+        child:Form(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Endereço de Entrega",
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16
+                ),
               ),
-            ),
-            CepInputField()
-          ],
+              CepInputField()
+            ],
+          ),
         ),
       ),
     );

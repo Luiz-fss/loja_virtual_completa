@@ -4,6 +4,7 @@ import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
 import 'package:loja_virtual_completa/models/cart-product.dart';
 import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/models/usuario-model.dart';
+import 'package:loja_virtual_completa/services/cepaberto-services.dart';
 
 class GerenciadorCarrinho extends ChangeNotifier{
   List<CartProduct> items = [];
@@ -94,5 +95,15 @@ class GerenciadorCarrinho extends ChangeNotifier{
       if(!cartProduct.hasStock) return false;
     }
     return true;
+  }
+
+  Future<void> getAddress(String cep)async{
+    final cepAbertoService = CepAbertoServices();
+    try{
+      await cepAbertoService.getAddressFromCep(cep);
+    }catch(e){
+
+    }
+
   }
 }
