@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:loja_virtual_completa/models/address.dart';
 import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
 import 'package:loja_virtual_completa/models/cart-product.dart';
 import 'package:loja_virtual_completa/models/product.dart';
@@ -10,6 +11,7 @@ class GerenciadorCarrinho extends ChangeNotifier{
   List<CartProduct> items = [];
 
   Usuario? user = Usuario();
+  Address? address;
 
   num productsPrice = 0;
   num get totalPrice => productsPrice;
@@ -100,7 +102,19 @@ class GerenciadorCarrinho extends ChangeNotifier{
   Future<void> getAddress(String cep)async{
     final cepAbertoService = CepAbertoServices();
     try{
-      await cepAbertoService.getAddressFromCep(cep);
+     final cepAberto =  await cepAbertoService.getAddressFromCep(cep);
+     if(cepAberto != null){
+      address = Address(
+         street: cepAberto.logradouro,
+         district: cepAberto.bairro,
+         state: cepAberto.estado?.sigla,
+         city: cepAberto.cidade?.nome,
+         lat: cepAberto.latitude,
+         long: cepAberto.longitude,
+         zipCode: cepAberto.cep
+       );
+     }
+     notifyListeners();
     }catch(e){
 
     }
