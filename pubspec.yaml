@@ -51,6 +51,7 @@ dependencies:
   firebase_core_web: ^2.3.0
   uuid: ^4.2.2
   dio: ^5.7.0
+  brasil_fields: ^1.15.0
 
 dev_dependencies:
   flutter_test:
