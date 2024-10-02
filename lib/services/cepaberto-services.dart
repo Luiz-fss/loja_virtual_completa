@@ -19,8 +19,8 @@ class CepAbertoServices{
      if(response.data == null || response.data!.isEmpty){
        return Future.error("CEP Inválido");
      }
-     final CepAbertoAddress address = CepAbertoAddress.fromJson(response.data!);
-     return address;
+     return CepAbertoAddress().fromJson(response.data!);
+
    }on DioException catch(e){
      return Future.error("Erro ao buscar CEP");
    }

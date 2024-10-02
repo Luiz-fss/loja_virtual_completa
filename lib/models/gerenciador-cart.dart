@@ -105,7 +105,7 @@ class GerenciadorCarrinho extends ChangeNotifier{
      final cepAberto =  await cepAbertoService.getAddressFromCep(cep);
      if(cepAberto != null){
       address = Address(
-         street: cepAberto.logradouro,
+        street: cepAberto.logradouro,
          district: cepAberto.bairro,
          state: cepAberto.estado?.sigla,
          city: cepAberto.cidade?.nome,
