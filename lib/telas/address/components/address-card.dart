@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual_completa/models/address.dart';
 import 'package:loja_virtual_completa/models/gerenciador-cart.dart';
 import 'package:provider/provider.dart';
 
+import 'address-input-field.dart';
 import 'cep-input-field.dart';
 
 class AddressCard extends StatelessWidget {
@@ -11,6 +13,7 @@ class AddressCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Consumer<GerenciadorCarrinho>(
       builder: (_,cartManager,__){
+        final address = cartManager.address ?? Address();
         return Card(
           margin: EdgeInsets.symmetric(vertical: 8,horizontal: 16),
           child: Padding(
@@ -26,7 +29,9 @@ class AddressCard extends StatelessWidget {
                         fontSize: 16
                     ),
                   ),
-                  CepInputField()
+                  CepInputField(),
+                  if(address.zipCode != null)
+                  AddressInputField(address),
                 ],
               ),
             ),

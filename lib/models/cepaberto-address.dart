@@ -1,40 +1,52 @@
 class CepAbertoAddress {
-  final double? altitude;
-  final String? cep;
-  final double? latitude;
-  final double? longitude;
-  final String? logradouro;
-  final String? bairro;
-  final Cidade? cidade;
-  final Estado? estado;
+  double? altitude;
+  String? cep;
+  double? latitude;
+  double? longitude;
+  String? logradouro;
+  String? bairro;
+  Cidade? cidade;
+  Estado? estado;
 
-  CepAbertoAddress.fromJson(Map<String,dynamic> map):
-        altitude = double.tryParse(map["altitude"] as String),
-        cep =  map["cep"] as String,
-        latitude =  double.tryParse(map["latitude"] as String),
-        longitude = double.tryParse( map["longitude"] as String),
-        logradouro = map["logradouro"] as String,
-        bairro =  map["bairro"] as String,
-        cidade = Cidade.fromJson(map["cidade"] as Map<String,dynamic>),
-        estado = Estado.fromJson(map["estado"] as Map<String,dynamic>);
+  CepAbertoAddress({this.cep,
+     this.longitude,
+    this.latitude,
+    this.altitude,
+    this.cidade,
+    this.estado,
+    this.bairro,
+    this.logradouro});
 
+  CepAbertoAddress fromJson(Map<String, dynamic> map) {
+    return CepAbertoAddress(
+        altitude: map["altitude"],
+        cep: map["cep"],
+        latitude: double.tryParse(map["latitude"]),
+        longitude: double.tryParse(map["longitude"]),
+        logradouro: map["logradouro"],
+        bairro: map["bairro"],
+        cidade: Cidade().fromJson(map["cidade"]),
+        estado: Estado().fromJson(map["estado"]));
+  }
 }
 
-class Cidade{
+class Cidade {
+  int? ddd;
+  String? ibge;
+  String? nome;
 
-  final int? ddd;
-  final String? ibge;
-  final String? nome;
+  Cidade({this.nome, this.ddd, this.ibge});
 
-  Cidade.fromJson(Map<String,dynamic> map):
-      ddd = map["ddd"] as int,
-      ibge = map["ibge"] as String,
-      nome = map["nome"] as String;
+  Cidade fromJson(Map<String, dynamic> map) {
+    return Cidade(ddd: map["ddd"], ibge: map["ibge"], nome: map["nome"]);
+  }
 }
 
-class Estado{
+class Estado {
+  String? sigla;
 
-  final String? sigla;
-  Estado.fromJson(Map<String,dynamic> map):
-        sigla = map["ddd"]as String;
+  Estado({this.sigla});
+  Estado fromJson(Map<String, dynamic> map) {
+    return Estado(sigla: map["sigla"]);
+  }
 }
