@@ -116,8 +116,12 @@ class GerenciadorCarrinho extends ChangeNotifier{
      }
      notifyListeners();
     }catch(e){
-
+      debugPrint(e.toString());
     }
+  }
 
+  void removerAddress(){
+    address = null;
+    notifyListeners();
   }
 }
