@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loja_virtual_completa/models/address.dart';
+import 'package:loja_virtual_completa/models/gerenciador-cart.dart';
+import 'package:provider/provider.dart';
 
 class AddressInputField extends StatelessWidget {
   const AddressInputField(this.address);
@@ -122,7 +124,12 @@ class AddressInputField extends StatelessWidget {
           style: ElevatedButton.styleFrom(
               backgroundColor: primaryColor,
               disabledBackgroundColor: primaryColor.withAlpha(100)),
-          onPressed: (){},
+          onPressed: (){
+            if(Form.of(context).validate()){
+              Form.of(context).save();
+              context.read<GerenciadorCarrinho>().setAddress(address);
+            }
+          },
           child: const Text("Calcular Frete"),
         )
       ],
