@@ -124,10 +124,18 @@ class AddressInputField extends StatelessWidget {
           style: ElevatedButton.styleFrom(
               backgroundColor: primaryColor,
               disabledBackgroundColor: primaryColor.withAlpha(100)),
-          onPressed: (){
+          onPressed: ()async{
             if(Form.of(context).validate()){
               Form.of(context).save();
-              context.read<GerenciadorCarrinho>().setAddress(address);
+              try{
+                await context.read<GerenciadorCarrinho>().setAddress(address);
+              }catch(e){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('$e'),
+                  backgroundColor: Colors.red,),
+                );
+              }
+
             }
           },
           child: const Text("Calcular Frete"),
