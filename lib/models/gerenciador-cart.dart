@@ -15,6 +15,8 @@ class GerenciadorCarrinho extends ChangeNotifier{
   Address? address;
 
   num productsPrice = 0;
+  num? deliveryPrice;
+
   num get totalPrice => productsPrice;
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -128,25 +130,32 @@ class GerenciadorCarrinho extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setAddress (Address address){
+  Future<void> setAddress (Address address)async{
     this.address = address;
-    calculateDelivery(address.lat ?? 0 , address.long ?? 0);
-    notifyListeners();
+    if(await calculateDelivery(address.lat ?? 0 , address.long ?? 0)){
+
+    }else{
+      return Future.error("Endereço fora do raio de entrga :(");
+    }
   }
 
-  Future<void> calculateDelivery(double lat, double long)async{
+  Future<bool> calculateDelivery(double lat, double long)async{
     final DocumentSnapshot doc = await firestore.doc("aux/delivery").get();
 
     final data = doc.data() as Map<String,dynamic>;
     final latStore = data["lat"] as double;
     final longStore = data["long"] as double;
     final maxKm = data["maxKm"] as num;
+    final km = data["max"] as num;
+    final base = data["base"] as num;
 
     double dis =  Geolocator.distanceBetween(latStore, longStore, lat, long);
     dis /= 1000.0;
 
-    if(dis <= maxKm){
-
-    }else{}
+    if(dis > maxKm){
+      return false;
+    }
+    deliveryPrice = base + dis * km;
+    return true;
   }
 }
