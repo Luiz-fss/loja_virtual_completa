@@ -11,6 +11,8 @@ class AddressInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
+    final cartManager = context.watch<GerenciadorCarrinho>();
+    if(address.zipCode != null && cartManager.deliveryPrice == null)
     return  Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -142,6 +144,15 @@ class AddressInputField extends StatelessWidget {
         )
       ],
     );
+    else if(address.zipCode != null)
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: Text(
+            "${address.street} - ${address.state}"
+        ),
+      );
+    else
+      return Container();
   }
 
 }

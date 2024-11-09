@@ -17,7 +17,8 @@ class GerenciadorCarrinho extends ChangeNotifier{
   num productsPrice = 0;
   num? deliveryPrice;
 
-  num get totalPrice => productsPrice;
+
+  num get totalPrice => productsPrice + (deliveryPrice ?? 0);
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -104,6 +105,8 @@ class GerenciadorCarrinho extends ChangeNotifier{
     return true;
   }
 
+  bool get isAddressValid => address !=null && deliveryPrice != null;
+
   Future<void> getAddress(String cep)async{
     final cepAbertoService = CepAbertoServices();
     try{
@@ -127,13 +130,14 @@ class GerenciadorCarrinho extends ChangeNotifier{
 
   void removerAddress(){
     address = null;
+    deliveryPrice = null;
     notifyListeners();
   }
 
   Future<void> setAddress (Address address)async{
     this.address = address;
     if(await calculateDelivery(address.lat ?? 0 , address.long ?? 0)){
-
+      notifyListeners();
     }else{
       return Future.error("Endereço fora do raio de entrga :(");
     }

@@ -30,7 +30,6 @@ class AddressCard extends StatelessWidget {
                     ),
                   ),
                   CepInputField(address),
-                  if(address.zipCode != null)
                   AddressInputField(address),
                 ],
               ),
