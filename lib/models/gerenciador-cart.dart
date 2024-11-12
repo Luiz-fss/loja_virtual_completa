@@ -128,11 +128,10 @@ class GerenciadorCarrinho extends ChangeNotifier{
        );
      }
      loading = false;
-     notifyListeners();
+
     }catch(e){
       loading = false;
       return Future.error("CEP Inválido");
-      notifyListeners();
     }
 
 
