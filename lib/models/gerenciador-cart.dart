@@ -16,8 +16,12 @@ class GerenciadorCarrinho extends ChangeNotifier{
 
   num productsPrice = 0;
   num? deliveryPrice;
-
-
+  bool _loading = false;
+  bool get loading => _loading;
+  set loading (bool value){
+    _loading = value;
+    notifyListeners();
+  }
   num get totalPrice => productsPrice + (deliveryPrice ?? 0);
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -108,6 +112,7 @@ class GerenciadorCarrinho extends ChangeNotifier{
   bool get isAddressValid => address !=null && deliveryPrice != null;
 
   Future<void> getAddress(String cep)async{
+    loading = true;
     final cepAbertoService = CepAbertoServices();
     try{
      final cepAberto =  await cepAbertoService.getAddressFromCep(cep);
@@ -122,10 +127,15 @@ class GerenciadorCarrinho extends ChangeNotifier{
          zipCode: cepAberto.cep
        );
      }
+     loading = false;
      notifyListeners();
     }catch(e){
-      debugPrint(e.toString());
+      loading = false;
+      return Future.error("CEP Inválido");
+      notifyListeners();
     }
+
+
   }
 
   void removerAddress(){
@@ -135,10 +145,12 @@ class GerenciadorCarrinho extends ChangeNotifier{
   }
 
   Future<void> setAddress (Address address)async{
+    loading = true;
     this.address = address;
     if(await calculateDelivery(address.lat ?? 0 , address.long ?? 0)){
-      notifyListeners();
+      loading = false;
     }else{
+      loading = false;
       return Future.error("Endereço fora do raio de entrga :(");
     }
   }
