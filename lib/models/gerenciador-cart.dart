@@ -29,9 +29,20 @@ class GerenciadorCarrinho extends ChangeNotifier{
   void updateUser(GerenciadorUsuario? gerenciadorUsuario) {
     user = gerenciadorUsuario?.usuarioAtual;
     items.clear();
+    productsPrice = 0;
+    removerAddress();
 
     if (user != null) {
       _loadCartItems();
+      _loadUserAddress();
+    }
+  }
+
+  Future<void> _loadUserAddress ()async{
+    if(user != null && user!.address != null &&
+        await calculateDelivery(user!.address!.lat!, user!.address!.long!)){
+      address = user!.address;
+      notifyListeners();
     }
   }
 
@@ -147,6 +158,7 @@ class GerenciadorCarrinho extends ChangeNotifier{
     loading = true;
     this.address = address;
     if(await calculateDelivery(address.lat ?? 0 , address.long ?? 0)){
+      user?.setAddress(address);
       loading = false;
     }else{
       loading = false;
