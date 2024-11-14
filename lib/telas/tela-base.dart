@@ -8,9 +8,15 @@ import 'package:loja_virtual_completa/telas/login/tela-login.dart';
 import 'package:loja_virtual_completa/telas/produtos/listagem-produtos.dart';
 import 'package:provider/provider.dart';
 
-class TelaBase extends StatelessWidget {
+class TelaBase extends StatefulWidget {
+
    TelaBase({Key? key}) : super(key: key);
 
+  @override
+  State<TelaBase> createState() => _TelaBaseState();
+}
+
+class _TelaBaseState extends State<TelaBase> {
   final PageController _pageController = PageController();
 
   @override
