@@ -24,7 +24,7 @@ class _CepInputFieldState extends State<CepInputField> {
     final primaryColor = Theme.of(context).primaryColor;
     final cartManager = context.watch<GerenciadorCarrinho>();
     String cep = "";
-    _cepController.text = widget.address.zipCode!;
+    _cepController.text = widget.address.zipCode ?? "";
     if(widget.address.zipCode == null){
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
