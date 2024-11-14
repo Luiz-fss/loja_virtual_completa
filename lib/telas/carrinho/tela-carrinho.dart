@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual_completa/componentes-gerais/login-card.dart';
 import 'package:loja_virtual_completa/componentes-gerais/price-card.dart';
 import 'package:loja_virtual_completa/models/gerenciador-cart.dart';
 import 'package:loja_virtual_completa/telas/carrinho/cart-tile.dart';
 import 'package:provider/provider.dart';
+
+import '../../componentes-gerais/empty-card.dart';
 
 class TelaCarrinho extends StatelessWidget {
   const TelaCarrinho({Key? key}) : super(key: key);
@@ -17,6 +20,18 @@ class TelaCarrinho extends StatelessWidget {
       ),
       body: Consumer<GerenciadorCarrinho>(
         builder: (_, gerenciadorCarrinho, child) {
+
+          if(gerenciadorCarrinho.user == null){
+            return LoginCard();
+          }
+
+          if(gerenciadorCarrinho.items.isNotEmpty){
+            return EmptyCard(
+              iconData: Icons.remove_shopping_cart,
+              title: "Nenhum produto no carrinho!",
+            );
+          }
+
           return ListView(
             children: [
               Column(
