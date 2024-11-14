@@ -36,15 +36,15 @@ class Address {
 
   static Address fromMap (Map<String,dynamic> json){
     return Address(
-      zipCode: json["zipCode"] as String,
-      long: json["long"] as double,
-      lat: json["lat"] as double,
-      city: json["city"] as String,
-      state: json["state"] as String,
-      district: json["district"] as String,
-      complement: json["complement"] as String,
-      number: json["number"] as String,
-      street: json["street"] as String
+      zipCode: json["zipCode"],
+      long: json["long"],
+      lat: json["lat"],
+      city: json["city"],
+      state: json["state"],
+      district: json["district"],
+      complement: json["complement"],
+      number: json["number"],
+      street: json["street"]
     );
   }
 }

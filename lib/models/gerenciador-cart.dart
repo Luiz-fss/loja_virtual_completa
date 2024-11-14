@@ -173,7 +173,7 @@ class GerenciadorCarrinho extends ChangeNotifier{
     final latStore = data["lat"] as double;
     final longStore = data["long"] as double;
     final maxKm = data["maxKm"] as num;
-    final km = data["max"] as num;
+    final km = data["km"] as num;
     final base = data["base"] as num;
 
     double dis =  Geolocator.distanceBetween(latStore, longStore, lat, long);
