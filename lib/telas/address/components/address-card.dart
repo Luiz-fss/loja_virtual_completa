@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/address.dart';
-import 'package:loja_virtual_completa/models/gerenciador-cart.dart';
+import 'package:loja_virtual_completa/models/cart-manager.dart';
 import 'package:provider/provider.dart';
 
 import 'address-input-field.dart';
@@ -11,7 +11,7 @@ class AddressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Consumer<GerenciadorCarrinho>(
+    return  Consumer<CartManager>(
       builder: (_,cartManager,__){
         final address = cartManager.address ?? Address();
         return Card(

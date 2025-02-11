@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/gerenciador-admin-usuario.dart';
-import 'package:loja_virtual_completa/models/gerenciador-cart.dart';
+import 'package:loja_virtual_completa/models/cart-manager.dart';
 import 'package:loja_virtual_completa/models/gerenciador-home.dart';
 import 'package:loja_virtual_completa/models/gerenciador-produtos.dart';
 import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
@@ -11,6 +11,7 @@ import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/models/usuario-model.dart';
 import 'package:loja_virtual_completa/telas/address/address-screen.dart';
 import 'package:loja_virtual_completa/telas/carrinho/tela-carrinho.dart';
+import 'package:loja_virtual_completa/telas/checkout/checkout-screen.dart';
 import 'package:loja_virtual_completa/telas/login/cadastro-conta.dart';
 import 'package:loja_virtual_completa/telas/login/tela-login.dart';
 import 'package:loja_virtual_completa/telas/produtos/product-screen.dart';
@@ -40,8 +41,8 @@ class MyApp extends StatelessWidget {
           create: (_)=> GerenciadorUsuario(),
           lazy: false,
         ),
-        ChangeNotifierProxyProvider<GerenciadorUsuario,GerenciadorCarrinho>(
-          create: (_)=> GerenciadorCarrinho(),
+        ChangeNotifierProxyProvider<GerenciadorUsuario,CartManager>(
+          create: (_)=> CartManager(),
           lazy: false,
           update: (contex,gerenciadorUsuario,gerenciadorCarrinho){
             return gerenciadorCarrinho!..updateUser(gerenciadorUsuario);
@@ -73,6 +74,8 @@ class MyApp extends StatelessWidget {
           switch(settings.name){
             case "/tela-base":
               return MaterialPageRoute(builder: (_)=>TelaBase());
+            case "/checkout":
+              return MaterialPageRoute(builder: (_)=>CheckoutScreen());
             case "/address-screen":
               return MaterialPageRoute(builder: (_)=>AddressScreen());
             case "/cadastro-conta":
