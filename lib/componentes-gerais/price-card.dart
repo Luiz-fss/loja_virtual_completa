@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loja_virtual_completa/models/gerenciador-cart.dart';
+import 'package:loja_virtual_completa/models/cart-manager.dart';
 import 'package:provider/provider.dart';
 
 class PriceCard extends StatelessWidget {
@@ -10,7 +10,7 @@ class PriceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartManager = context.watch<GerenciadorCarrinho>();
+    final cartManager = context.watch<CartManager>();
     final productsPrice = cartManager.productsPrice;
     final totalPrice = cartManager.totalPrice;
     final deliveryPrice = cartManager.deliveryPrice;

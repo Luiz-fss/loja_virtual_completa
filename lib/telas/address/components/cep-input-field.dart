@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/services/text_formatter.dart';
 import 'package:loja_virtual_completa/componentes-gerais/icon-button-customizado.dart';
 import 'package:loja_virtual_completa/models/address.dart';
-import 'package:loja_virtual_completa/models/gerenciador-cart.dart';
+import 'package:loja_virtual_completa/models/cart-manager.dart';
 import 'package:provider/provider.dart';
 
 class CepInputField extends StatefulWidget {
@@ -22,7 +22,7 @@ class _CepInputFieldState extends State<CepInputField> {
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
-    final cartManager = context.watch<GerenciadorCarrinho>();
+    final cartManager = context.watch<CartManager>();
     String cep = "";
     _cepController.text = widget.address.zipCode ?? "";
     if(widget.address.zipCode == null){
@@ -63,7 +63,7 @@ class _CepInputFieldState extends State<CepInputField> {
             onPressed: !cartManager.loading ?() async{
               if(Form.of(context).validate()){
                 try{
-                 await context.read<GerenciadorCarrinho>().getAddress(_cepController.text);
+                 await context.read<CartManager>().getAddress(_cepController.text);
                 }catch(e){
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('$e'),
@@ -98,7 +98,7 @@ class _CepInputFieldState extends State<CepInputField> {
             iconData: Icons.edit,
             corIcone: primaryColor,
             onTap: (){
-              context.read<GerenciadorCarrinho>().removerAddress();
+              context.read<CartManager>().removerAddress();
             },
           )
         ],

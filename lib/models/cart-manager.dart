@@ -8,7 +8,7 @@ import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/models/usuario-model.dart';
 import 'package:loja_virtual_completa/services/cepaberto-services.dart';
 
-class GerenciadorCarrinho extends ChangeNotifier{
+class CartManager extends ChangeNotifier{
   List<CartProduct> items = [];
 
   Usuario? user = Usuario();

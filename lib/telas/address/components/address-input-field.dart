@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loja_virtual_completa/models/address.dart';
-import 'package:loja_virtual_completa/models/gerenciador-cart.dart';
+import 'package:loja_virtual_completa/models/cart-manager.dart';
 import 'package:provider/provider.dart';
 
 class AddressInputField extends StatelessWidget {
@@ -11,7 +11,7 @@ class AddressInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
-    final cartManager = context.watch<GerenciadorCarrinho>();
+    final cartManager = context.watch<CartManager>();
     if(address.zipCode != null && cartManager.deliveryPrice == null)
     return  Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -139,7 +139,7 @@ class AddressInputField extends StatelessWidget {
             if(Form.of(context).validate()){
               Form.of(context).save();
               try{
-                await context.read<GerenciadorCarrinho>().setAddress(address);
+                await context.read<CartManager>().setAddress(address);
               }catch(e){
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('$e'),
