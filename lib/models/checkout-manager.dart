@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:loja_virtual_completa/models/cart-manager.dart';
+import 'package:loja_virtual_completa/models/cart_manager.dart';
 
 class CheckoutManager extends ChangeNotifier {
 
