@@ -10,6 +10,7 @@ class UserManager extends ChangeNotifier{
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+
   UserManager(){
     _loadCurrentUser();
   }
