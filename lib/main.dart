@@ -2,20 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:loja_virtual_completa/models/gerenciador-admin-usuario.dart';
-import 'package:loja_virtual_completa/models/gerenciador-cart.dart';
-import 'package:loja_virtual_completa/models/gerenciador-home.dart';
-import 'package:loja_virtual_completa/models/gerenciador-produtos.dart';
-import 'package:loja_virtual_completa/models/gerenciador-usuario.dart';
+import 'package:loja_virtual_completa/models/admin_users_manager.dart';
+import 'package:loja_virtual_completa/models/cart_manager.dart';
+import 'package:loja_virtual_completa/models/home_manager.dart';
 import 'package:loja_virtual_completa/models/product.dart';
-import 'package:loja_virtual_completa/models/usuario-model.dart';
-import 'package:loja_virtual_completa/telas/address/address-screen.dart';
-import 'package:loja_virtual_completa/telas/carrinho/tela-carrinho.dart';
-import 'package:loja_virtual_completa/telas/login/cadastro-conta.dart';
-import 'package:loja_virtual_completa/telas/login/tela-login.dart';
-import 'package:loja_virtual_completa/telas/produtos/product-screen.dart';
-import 'package:loja_virtual_completa/telas/produtos/editar-produto.dart';
-import 'package:loja_virtual_completa/telas/tela-base.dart';
+import 'package:loja_virtual_completa/models/product_manager.dart';
+import 'package:loja_virtual_completa/models/user_manager.dart';
+import 'package:loja_virtual_completa/screens/address/address_screen.dart';
+import 'package:loja_virtual_completa/screens/base/base_screen.dart';
+import 'package:loja_virtual_completa/screens/cart/cart_screen.dart';
+import 'package:loja_virtual_completa/screens/edit_product/edit_product_screen.dart';
+import 'package:loja_virtual_completa/screens/login/login_screen.dart';
+import 'package:loja_virtual_completa/screens/product/product_screen.dart';
+import 'package:loja_virtual_completa/screens/select_product/select_product_screen.dart';
+import 'package:loja_virtual_completa/screens/signup/signup_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -37,25 +37,26 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_)=> GerenciadorUsuario(),
+            create: (_)=>UserManager(),
           lazy: false,
         ),
-        ChangeNotifierProxyProvider<GerenciadorUsuario,GerenciadorCarrinho>(
-          create: (_)=> GerenciadorCarrinho(),
-          lazy: false,
-          update: (contex,gerenciadorUsuario,gerenciadorCarrinho){
-            return gerenciadorCarrinho!..updateUser(gerenciadorUsuario);
-          },
-        ),
-        ChangeNotifierProxyProvider<GerenciadorUsuario,GerenciadorAdminUsuario>(
-          create: (_)=> GerenciadorAdminUsuario(),
-          lazy: false,
-          update: (context,userManager,admUserManager) => admUserManager!..updateUser(userManager),
-        ),
-        ChangeNotifierProvider(create: (_)=>GerenciadorHome(),lazy: false,),
         ChangeNotifierProvider(
-          create: (_)=> GerenciadorProduto(),
+          create: (_)=>HomeManager(),
           lazy: false,
+        ),
+        ChangeNotifierProvider(
+          create: (_)=> ProductManager(),
+          lazy: false,
+        ),
+        ChangeNotifierProxyProvider<UserManager,CartManager>(
+          create: (_)=>CartManager(),
+          lazy: false,
+          update: (context,userManager,cartManager) => cartManager!..updateUser(userManager),
+        ),
+        ChangeNotifierProxyProvider<UserManager,AdminUsersManager>(
+          create: (context)=>AdminUsersManager(),
+          lazy: false,
+          update: (context,userManager,adminUseresManager)=> adminUseresManager!..updateUser(userManager),
         )
       ],
       child: MaterialApp(
@@ -68,32 +69,32 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor:const Color.fromARGB(255, 4, 125, 141),
             appBarTheme: const AppBarTheme(elevation: 0)
         ),
-        initialRoute: "/tela-base",
+        //initialRoute: "/base",
         onGenerateRoute: (settings){
           switch(settings.name){
-            case "/tela-base":
-              return MaterialPageRoute(builder: (_)=>TelaBase());
-            case "/address-screen":
+            case "/base":
+              return MaterialPageRoute(builder: (_)=>BaseScreen());
+            case "/login":
+              return MaterialPageRoute(builder: (_)=>LoginScreen());
+            case "/signup":
+              return MaterialPageRoute(builder: (_)=>SignupScreen());
+            case "/select_product":
+              return MaterialPageRoute(builder: (_)=>SelectProductScreen());
+            case "/address":
               return MaterialPageRoute(builder: (_)=>AddressScreen());
-            case "/cadastro-conta":
-              return MaterialPageRoute(builder: (_)=> CadastroConta());
-            case "/tela-login":
-              return MaterialPageRoute(builder: (_)=> TelaLogin());
-            case "/tela-carrinho":
-              return MaterialPageRoute(builder: (_)=> TelaCarrinho());
-            case "/detalhe-produto":
-              return MaterialPageRoute(builder: (_)=> ProductScreen(
-                settings.arguments as Product
+            case "/cart":
+              return MaterialPageRoute(builder: (_)=>CartScreen());
+            case "/edit_product":
+              return MaterialPageRoute(builder: (_)=>EditProductScreen(
+               settings.arguments as Product,
               ));
-            case "/editar-produto":
-              return MaterialPageRoute(builder: (_)=>EditarProduto(
-                settings.arguments as Product,
-              ));
-            default:
-              return MaterialPageRoute(builder: (_)=>TelaBase());
+            case "/product":
+              return MaterialPageRoute(builder: (_)=>ProductScreen(product: settings.arguments as Product));
+            default: return MaterialPageRoute(builder: (_)=>BaseScreen());
           }
         },
-      )
+
+      ),
     );
   }
 }
