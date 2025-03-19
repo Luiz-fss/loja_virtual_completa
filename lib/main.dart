@@ -11,6 +11,7 @@ import 'package:loja_virtual_completa/models/user_manager.dart';
 import 'package:loja_virtual_completa/screens/address/address_screen.dart';
 import 'package:loja_virtual_completa/screens/base/base_screen.dart';
 import 'package:loja_virtual_completa/screens/cart/cart_screen.dart';
+import 'package:loja_virtual_completa/screens/checkout/checkout_screen.dart';
 import 'package:loja_virtual_completa/screens/edit_product/edit_product_screen.dart';
 import 'package:loja_virtual_completa/screens/login/login_screen.dart';
 import 'package:loja_virtual_completa/screens/product/product_screen.dart';
@@ -73,17 +74,19 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: (settings){
           switch(settings.name){
             case "/base":
-              return MaterialPageRoute(builder: (_)=>BaseScreen());
+              return MaterialPageRoute(builder: (_)=>BaseScreen(),settings: settings);
             case "/login":
               return MaterialPageRoute(builder: (_)=>LoginScreen());
             case "/signup":
               return MaterialPageRoute(builder: (_)=>SignupScreen());
             case "/select_product":
               return MaterialPageRoute(builder: (_)=>SelectProductScreen());
+            case "/checkout":
+              return MaterialPageRoute(builder: (_)=>CheckoutScreen());
             case "/address":
               return MaterialPageRoute(builder: (_)=>AddressScreen());
             case "/cart":
-              return MaterialPageRoute(builder: (_)=>CartScreen());
+              return MaterialPageRoute(builder: (_)=>CartScreen(),settings: settings);
             case "/edit_product":
               return MaterialPageRoute(builder: (_)=>EditProductScreen(
                settings.arguments as Product,
