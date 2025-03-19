@@ -5,11 +5,12 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
     // Add the dependency for the Google services Gradle plugin
     id("com.google.gms.google-services") version "4.4.2" apply false
+
 }
 
 android {
     namespace = "com.example.loja_virtual_completa"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
