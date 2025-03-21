@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/common/custom_drawer/custom_drawer.dart';
 import 'package:loja_virtual_completa/models/page_manager.dart';
 import 'package:loja_virtual_completa/models/user_manager.dart';
+import 'package:loja_virtual_completa/screens/admin_orders/admin_orders_screen.dart';
 import 'package:loja_virtual_completa/screens/admin_users/admin_users_screen.dart';
 import 'package:loja_virtual_completa/screens/home/home_screen.dart';
 import 'package:loja_virtual_completa/screens/login/login_screen.dart';
@@ -35,12 +36,7 @@ class BaseScreen extends StatelessWidget {
               ),
               if(userManager.adminEnable)...[
                 AdminUsersScreen(),
-                Scaffold(
-                  drawer: CustomDrawer(),
-                  appBar: AppBar(
-                    title: Text("Pedidos"),
-                  ),
-                )
+                AdminOrdersScreen()
               ]
             ],
           );

@@ -24,6 +24,7 @@ class EmptyCard extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 20,
+              color: Colors.white,
               fontWeight: FontWeight.bold
             ),
           )

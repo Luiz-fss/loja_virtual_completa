@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual_completa/models/admin_orders_manager.dart';
 import 'package:loja_virtual_completa/models/admin_users_manager.dart';
 import 'package:loja_virtual_completa/models/cart_manager.dart';
 import 'package:loja_virtual_completa/models/home_manager.dart';
@@ -61,6 +62,11 @@ class MyApp extends StatelessWidget {
           create: (_)=>OrdersManager(),
           lazy: false,
           update: (context,userManager,ordersManager) => ordersManager!..updateUser(userManager.user),
+        ),
+        ChangeNotifierProxyProvider<UserManager,AdminOrdersManager>(
+          create: (_)=>AdminOrdersManager(),
+          lazy: false,
+          update: (context,userManager,adminOrdersManager) => adminOrdersManager!..updateAdmin(userManager.adminEnable),
         ),
         ChangeNotifierProxyProvider<UserManager,AdminUsersManager>(
           create: (context)=>AdminUsersManager(),

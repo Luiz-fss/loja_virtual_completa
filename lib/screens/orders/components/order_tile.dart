@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/order.dart';
+import 'package:loja_virtual_completa/screens/orders/components/cancel_order_dialog.dart';
+import 'package:loja_virtual_completa/screens/orders/components/export_address_dialog.dart';
 
 import '../../edit_product/components/order_product_tile.dart';
 
 
 class OrderTile extends StatelessWidget {
   final OrderModel order;
-  const OrderTile({super.key, required this.order});
+  final bool showControls;
+  OrderTile({required this.order,this.showControls = false});
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +41,10 @@ class OrderTile extends StatelessWidget {
             ),
 
             Text(
-              "Em transporte",
+              order.statusText,
               style:  TextStyle(
                 fontWeight: FontWeight.w400,
-                color: Theme.of(context).primaryColor,
+                color: order.statusText == Status.canceled ? Colors.red :Theme.of(context).primaryColor,
                 fontSize: 14
               ),
             )
@@ -52,6 +55,54 @@ class OrderTile extends StatelessWidget {
             children: order.items!.map((e){
               return OrderProductTile(cartProduct: e);
             }).toList(),
+          ),
+          if(showControls && order.status != Status.canceled)
+          SizedBox(
+            height: 50,
+            child: ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              children: [
+                TextButton(
+                  onPressed: (){
+                    showDialog(context: context, builder: (context)=>CancelOrderDialog(
+                      orderModel: order,
+                    ));
+                  },
+                  child: const Text(
+                    "Cancelar",
+                    style: TextStyle(
+                      color: Colors.red
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: order.back,
+                  child: const Text(
+                    "Recuar",
+                  ),
+                ),
+                TextButton(
+                  onPressed: order.advanced,
+                  child: const Text(
+                    "Avançar",
+                  ),
+                ),
+                TextButton(
+                  onPressed: (){
+                    showDialog(context: context, builder: (context)=>ExportAddressDialog(
+                      address: order.address,
+                    ));
+                  },
+                  child:  Text(
+                    "Endereço",
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor
+                    ),
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),
