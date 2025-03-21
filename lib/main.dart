@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/admin_users_manager.dart';
 import 'package:loja_virtual_completa/models/cart_manager.dart';
 import 'package:loja_virtual_completa/models/home_manager.dart';
+import 'package:loja_virtual_completa/models/order.dart';
+import 'package:loja_virtual_completa/models/orders_manager.dart';
 import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/models/product_manager.dart';
 import 'package:loja_virtual_completa/models/user_manager.dart';
@@ -12,6 +14,7 @@ import 'package:loja_virtual_completa/screens/address/address_screen.dart';
 import 'package:loja_virtual_completa/screens/base/base_screen.dart';
 import 'package:loja_virtual_completa/screens/cart/cart_screen.dart';
 import 'package:loja_virtual_completa/screens/checkout/checkout_screen.dart';
+import 'package:loja_virtual_completa/screens/confirmation/confirmation_screen.dart';
 import 'package:loja_virtual_completa/screens/edit_product/edit_product_screen.dart';
 import 'package:loja_virtual_completa/screens/login/login_screen.dart';
 import 'package:loja_virtual_completa/screens/product/product_screen.dart';
@@ -54,6 +57,11 @@ class MyApp extends StatelessWidget {
           lazy: false,
           update: (context,userManager,cartManager) => cartManager!..updateUser(userManager),
         ),
+        ChangeNotifierProxyProvider<UserManager,OrdersManager>(
+          create: (_)=>OrdersManager(),
+          lazy: false,
+          update: (context,userManager,ordersManager) => ordersManager!..updateUser(userManager.user),
+        ),
         ChangeNotifierProxyProvider<UserManager,AdminUsersManager>(
           create: (context)=>AdminUsersManager(),
           lazy: false,
@@ -83,6 +91,8 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_)=>SelectProductScreen());
             case "/checkout":
               return MaterialPageRoute(builder: (_)=>CheckoutScreen());
+            case "/confirmation":
+              return MaterialPageRoute(builder: (_)=>ConfirmationScreen(order: settings.arguments as OrderModel));
             case "/address":
               return MaterialPageRoute(builder: (_)=>AddressScreen());
             case "/cart":

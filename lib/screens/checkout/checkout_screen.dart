@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/cart_manager.dart';
 import 'package:loja_virtual_completa/models/checkout-manager.dart';
-import 'package:loja_virtual_completa/models/page_manager.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/price_card.dart';
@@ -54,9 +53,11 @@ class CheckoutScreen extends StatelessWidget {
                   buttonText: "Finalizar Pedido",
                   onPressed: (){
                     checkoutManager.checkout(
-                      onSuccess: (){
+                      onSuccess: (order){
 
                         Navigator.of(context).pushNamed("/base");
+                        Navigator.of(context).pushNamed("/confirmation",arguments: order);
+
 
                       },
                       onStockFail: (e){

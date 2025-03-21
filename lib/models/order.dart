@@ -29,4 +29,15 @@ class OrderModel {
       "address": address?.toMap()
     });
   }
+
+  OrderModel.fromDocument(DocumentSnapshot doc){
+    orderId = doc.id;
+    price = doc["price"];
+    userId = doc["user"] as String;
+    address = Address.fromMap(doc["address"] as Map<String,dynamic>);
+    //date = doc["date"] as Timestamp;
+    items = (doc["items"] as List<dynamic>).map((e)=>CartProduct.fromMap(e)).toList();
+  }
+
+  String get formattedId => "#${orderId?.padLeft(6,"0")}";
 }
