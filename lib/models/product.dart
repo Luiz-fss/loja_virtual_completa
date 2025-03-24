@@ -14,6 +14,7 @@ class Product extends ChangeNotifier{
   List<ItemSize>? sizes;
   List<dynamic>? newImages;
   ItemSize? _selectedItemSize;
+  bool? deleted;
 
   ItemSize? get selectedSize => _selectedItemSize;
 
@@ -27,7 +28,7 @@ class Product extends ChangeNotifier{
 
   List<String> updateImages = [];
 
-  Product({this.id,this.description,this.name,this.sizes,this.images}){
+  Product({this.id,this.description,this.name,this.sizes,this.images,this.deleted = false}){
     images = images ?? [];
     sizes = sizes ?? [];
   }
@@ -40,7 +41,7 @@ class Product extends ChangeNotifier{
     return stock;
   }
 
-  bool get hasStock => totalStock >  0;
+  bool get hasStock => totalStock >  0 && !deleted!;
 
   set selectedSize (ItemSize? value){
     _selectedItemSize = value;
@@ -53,6 +54,7 @@ class Product extends ChangeNotifier{
     name = document["name"] as String;
     description = document["description"] as String;
     images = List<String>.from(document["images"] as List<dynamic>);
+    deleted = (document["deleted"] ?? false);
     sizes = (document["sizes"] as List<dynamic>)
         .map((s) => ItemSize.fromMap(s))
         .toList();
@@ -76,6 +78,7 @@ class Product extends ChangeNotifier{
     notifyListeners();
     final Map<String,dynamic> data={
       "name":name,
+      "deleted":deleted,
       "description":description,
       "sizes": exportSizeList()
     };
@@ -120,7 +123,7 @@ class Product extends ChangeNotifier{
   num get basePrice {
     num lowest = double.infinity;
     for(final size in sizes!){
-      if(size.price! < lowest && size.hasStock){
+      if(size.price! < lowest){
         lowest = size.price!;
       }
 
@@ -134,7 +137,8 @@ class Product extends ChangeNotifier{
       name: name,
       description: description,
       images: List.from(images!),
-      sizes: sizes?.map((size)=> size.clone()).toList()
+      sizes: sizes?.map((size)=> size.clone()).toList(),
+      deleted: deleted
     );
   }
 
@@ -144,5 +148,9 @@ class Product extends ChangeNotifier{
   set loading (bool value){
     _loading = value;
     notifyListeners();
+  }
+
+  void delete(){
+    firestoreRef.update({"deleted":true});
   }
 }

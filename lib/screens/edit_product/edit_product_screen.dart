@@ -24,6 +24,16 @@ class EditProductScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
           iconTheme: const IconThemeData(color: Colors.white),
+          actions: [
+            if(editing)
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: (){
+                  context.read<ProductManager>().delete(product);
+                  Navigator.of(context).pop();
+                },
+              )
+          ],
           title:  Text(
             editing ? "Editar Produto": "Criar Produto",
             style: const TextStyle(

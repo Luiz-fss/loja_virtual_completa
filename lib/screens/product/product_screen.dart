@@ -29,7 +29,7 @@ class ProductScreen extends StatelessWidget {
           actions: [
             Consumer<UserManager>(
               builder: (context,userManager,child){
-                if(userManager.adminEnable){
+                if(userManager.adminEnable && !product.deleted!){
                   return IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: (){
@@ -101,21 +101,34 @@ class ProductScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const Padding(
-                    padding: EdgeInsets.only(top: 16,bottom: 8),
-                    child: Text(
-                      "Tamanhos",
+                  if(product.deleted!)
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 8,top: 16),
+                      child: Text("Indisponível",
                       style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500
-                      ),
-                    ),
-                  ),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: product.sizes!.map((s)=>SizeWidget(size:s)).toList(),
-                  ),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.red
+                      ),),
+                    )
+                  else
+                 ...[
+                   const Padding(
+                     padding: EdgeInsets.only(top: 16,bottom: 8),
+                     child: Text(
+                       "Tamanhos",
+                       style: TextStyle(
+                           fontSize: 16,
+                           fontWeight: FontWeight.w500
+                       ),
+                     ),
+                   ),
+                   Wrap(
+                     spacing: 8,
+                     runSpacing: 8,
+                     children: product.sizes!.map((s)=>SizeWidget(size:s)).toList(),
+                   ),
+                 ],
                   const SizedBox(height: 20,),
                   if(product.hasStock)
                     Consumer2<UserManager, Product>(
