@@ -10,6 +10,7 @@ import 'package:loja_virtual_completa/models/order.dart';
 import 'package:loja_virtual_completa/models/orders_manager.dart';
 import 'package:loja_virtual_completa/models/product.dart';
 import 'package:loja_virtual_completa/models/product_manager.dart';
+import 'package:loja_virtual_completa/models/stores_manager.dart';
 import 'package:loja_virtual_completa/models/user_manager.dart';
 import 'package:loja_virtual_completa/screens/address/address_screen.dart';
 import 'package:loja_virtual_completa/screens/base/base_screen.dart';
@@ -44,6 +45,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (_)=>UserManager(),
           lazy: false,
+        ),
+        ChangeNotifierProvider(
+          create: (_)=>StoresManager(),
         ),
         ChangeNotifierProvider(
           create: (_)=>HomeManager(),

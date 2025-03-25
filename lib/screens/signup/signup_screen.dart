@@ -102,46 +102,43 @@ class SignupScreen extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    SizedBox(
-                      height: 44,
-                      child: ElevatedButton(
-                        onPressed: userManager.loading ? null :(){
-                          if( _formKey.currentState!.validate()){
-                            _formKey.currentState!.save();
+                    ElevatedButton(
+                      onPressed: userManager.loading ? null :(){
+                        if( _formKey.currentState!.validate()){
+                          _formKey.currentState!.save();
 
-                            if(user.password != user.confirmPassowrd){
-                              ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                                content: Text("Senhas não coicidem"),
-                                backgroundColor: Colors.red,
-                              ));
-                              return ;
-                            }
-
-                            userManager.signUp(
-                                userModel: user,
-                                onSuccess: (){
-                                  Navigator.of(context).pop();
-                                },
-                                onFail: (e){
-                                  ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                                    content: Text("Falha ao cadastrar"),
-                                    backgroundColor: Colors.red,
-                                  ));
-                                }
-                            );
-
+                          if(user.password != user.confirmPassowrd){
+                            ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                              content: Text("Senhas não coicidem"),
+                              backgroundColor: Colors.red,
+                            ));
+                            return ;
                           }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).primaryColor,
-                            surfaceTintColor: Theme.of(context).primaryColor.withAlpha(100)
-                        ),
-                        child: userManager.loading ? const CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation(Colors.white),
-                        ) :const Text(
-                          "Criar Conta",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        ),
+
+                          userManager.signUp(
+                              userModel: user,
+                              onSuccess: (){
+                                Navigator.of(context).pop();
+                              },
+                              onFail: (e){
+                                ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                                  content: Text("Falha ao cadastrar"),
+                                  backgroundColor: Colors.red,
+                                ));
+                              }
+                          );
+
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          surfaceTintColor: Theme.of(context).primaryColor.withAlpha(100)
+                      ),
+                      child: userManager.loading ? const CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                      ) :const Text(
+                        "Criar Conta",
+                        style: TextStyle(fontSize: 15, color: Colors.white),
                       ),
                     )
 

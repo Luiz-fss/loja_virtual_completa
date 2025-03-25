@@ -8,6 +8,7 @@ import 'package:loja_virtual_completa/screens/home/home_screen.dart';
 import 'package:loja_virtual_completa/screens/login/login_screen.dart';
 import 'package:loja_virtual_completa/screens/orders/orders_screen.dart';
 import 'package:loja_virtual_completa/screens/products/products_screen.dart';
+import 'package:loja_virtual_completa/screens/stores/store_screens.dart';
 import 'package:provider/provider.dart';
 
 class BaseScreen extends StatelessWidget {
@@ -28,12 +29,7 @@ class BaseScreen extends StatelessWidget {
               HomeScreen(),
               ProductsScreen(),
               OrdersScreen(),
-              Scaffold(
-                drawer: CustomDrawer(),
-                appBar: AppBar(
-                  title: Text("data"),
-                ),
-              ),
+              StoreScreens(),
               if(userManager.adminEnable)...[
                 AdminUsersScreen(),
                 AdminOrdersScreen()

@@ -1,7 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.loja_virtual_completa">
-
-
    <application
         android:label="loja_virtual_completa"
         android:name="${applicationName}"

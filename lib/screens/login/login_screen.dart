@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_view.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:loja_virtual_completa/common/custom_drawer/drawer_tile.dart';
 import 'package:loja_virtual_completa/models/user.dart';
 import 'package:loja_virtual_completa/models/user_manager.dart';
@@ -99,40 +101,44 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    SizedBox(
-                      height: 44,
-                      child: ElevatedButton(
-                        onPressed: userManager.loading ? null :() {
-                          if (_formKey.currentState!.validate()) {
-                            final UserModel user = UserModel(
-                                email: _emailController.text,
-                                password: _passController.text);
-                            userManager
-                                .signIn(user: user,
-                                onFail: (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar( SnackBar(
-                                    content: Text("Falha ao entrar: ${e}"),
-                                    backgroundColor: Colors.red,
-                                  ));
-                                },
-                                onSuccess: (){
-                                  Navigator.of(context).pop();
-                                }
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          surfaceTintColor: Theme.of(context).primaryColor.withAlpha(100)
-                        ),
-                        child: userManager.loading ? const CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation(Colors.white),
-                        )
-                            :const Text(
-                          "Entrar",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        ),
+                    ElevatedButton(
+                      onPressed: userManager.loading ? null :() {
+                        if (_formKey.currentState!.validate()) {
+                          final UserModel user = UserModel(
+                              email: _emailController.text,
+                              password: _passController.text);
+                          userManager
+                              .signIn(user: user,
+                              onFail: (e) {
+                                ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+                                  content: Text("Falha ao entrar: ${e}"),
+                                  backgroundColor: Colors.red,
+                                ));
+                              },
+                              onSuccess: (){
+                                Navigator.of(context).pop();
+                              }
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        surfaceTintColor: Theme.of(context).primaryColor.withAlpha(100)
                       ),
+                      child: userManager.loading ? const CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                      )
+                          :const Text(
+                        "Entrar",
+                        style: TextStyle(fontSize: 15, color: Colors.white),
+                      ),
+                    ),
+                    SignInButton(
+                      Buttons.Facebook,
+                      text: "Entrar com Facebook",
+                      onPressed: (){
+                        userManager.facebookLogin();
+                      },
                     )
                   ],
                 );
