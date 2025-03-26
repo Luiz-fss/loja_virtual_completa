@@ -3,12 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_completa/models/cart_manager.dart';
 import 'package:loja_virtual_completa/models/checkout-manager.dart';
+import 'package:loja_virtual_completa/screens/checkout/components/credit_card_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/price_card.dart';
 
 class CheckoutScreen extends StatelessWidget {
-  const CheckoutScreen({super.key});
+   CheckoutScreen({super.key});
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -47,30 +50,37 @@ class CheckoutScreen extends StatelessWidget {
                 ),
               );
             }
-            return ListView(
-              children: [
-                PriceCard(
-                  buttonText: "Finalizar Pedido",
-                  onPressed: (){
-                    checkoutManager.checkout(
-                      onSuccess: (order){
+            return Form(
+              key: formKey,
+              child: ListView(
+                children: [
+                  CreditCardWidget(),
+                  PriceCard(
+                    buttonText: "Finalizar Pedido",
+                    onPressed: (){
+                      if(formKey.currentState!.validate()){
+                        checkoutManager.checkout(
+                            onSuccess: (order){
 
-                        Navigator.of(context).pushNamed("/base");
-                        Navigator.of(context).pushNamed("/confirmation",arguments: order);
+                              Navigator.of(context).pushNamed("/base");
+                              Navigator.of(context).pushNamed("/confirmation",arguments: order);
 
 
-                      },
-                      onStockFail: (e){
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Não tem estoque suficiente'),
-                            backgroundColor: Colors.red,),
+                            },
+                            onStockFail: (e){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Não tem estoque suficiente'),
+                                  backgroundColor: Colors.red,),
+                              );
+                              Navigator.of(context).popUntil((route)=> route.settings.name == "/cart");
+                            }
                         );
-                        Navigator.of(context).popUntil((route)=> route.settings.name == "/cart");
                       }
-                    );
-                  },
-                )
-              ],
+
+                    },
+                  )
+                ],
+              ),
             );
           },
         ),
